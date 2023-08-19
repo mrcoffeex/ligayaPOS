@@ -417,6 +417,19 @@ include("../../conf/my_project.php");
         }
     }
 
+    //search album
+    if (isset($_POST['searchAlbum'])) {
+        $searchAlbum = words($_POST['searchAlbum']);
+
+        if (ctype_space($searchAlbum)) {
+            header("location: album?search_text=mrcoffeex_only_space");
+        }else if ($searchAlbum == "0") {
+            header("location: album?search_text=mrcoffeex_only_zero");
+        }else if ($searchAlbum) {
+            header("location: albumSearch?search_text=$searchAlbum");
+        }
+    }
+
     //search sales report
     // if (isset($_POST['submit_sales_report_sales'])) {
     //     $my_date = words($_POST['my_date']);

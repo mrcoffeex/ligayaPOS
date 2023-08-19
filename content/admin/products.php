@@ -127,7 +127,10 @@
                     
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Product Data Table <span style="color: red;"><?= 0 + $count_products; ?> result(s)</span>
+                            Product Data Table <span style="color: red;"><?= 0 + $count_products; ?> result(s)</span> 
+                            <a href="album">
+                                <button type="button" class="btn btn-primary btn-sm"><i class="fa fa-image"></i> Album</button>
+                            </a>
                             <span style="float: right;"> Press <span style="color: blue;">F5</span> to refresh results</span> 
                         </div>
                         <!-- /.panel-heading -->

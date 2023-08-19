@@ -295,4 +295,168 @@
         return $statement;
 
     }
+
+    function countAlbum($limit){
+
+        include 'conn.php';
+
+        if (count($limit)) {
+            $statement=$link->query("SELECT 
+                                * 
+                                From 
+                                gy_products 
+                                Where
+                                gy_product_quantity != 0
+                                Order By 
+                                gy_product_code 
+                                ASC");
+        } else {
+            $statement=$link->query("SELECT 
+                                * 
+                                From 
+                                gy_products 
+                                Where
+                                gy_product_quantity != 0
+                                Order By 
+                                gy_product_code 
+                                ASC
+                                LIMIT $limit");
+        }
+
+        $count=$statement->num_rows;
+        
+        return $count;
+
+    }
+
+    function selectAlbum($limit){
+
+        include 'conn.php';
+
+        if (count($limit)) {
+            $statement=$link->query("SELECT 
+                                * 
+                                From 
+                                gy_products 
+                                Where
+                                gy_product_quantity != 0
+                                Order By 
+                                gy_product_code 
+                                ASC");
+        } else {
+            $statement=$link->query("SELECT 
+                                * 
+                                From 
+                                gy_products 
+                                Where
+                                gy_product_quantity != 0
+                                Order By 
+                                gy_product_code 
+                                ASC
+                                LIMIT $limit");
+        }
+        
+        return $statement;
+
+    }
+
+    function countAlbumSearch($search_text, $limit){
+
+        include 'conn.php';
+
+        if (count($limit)) {
+            $statement=$link->query("SELECT 
+                                * 
+                                From 
+                                gy_products 
+                                Where
+                                CONCAT
+                                (
+                                    gy_product_code,
+                                    gy_product_name,
+                                    gy_product_desc,
+                                    gy_product_color,
+                                    gy_product_cat
+                                )
+                                LIKE
+                                '%$search_text%'
+                                Order By 
+                                gy_product_code 
+                                ASC");
+        } else {
+            $statement=$link->query("SELECT 
+                                * 
+                                From 
+                                gy_products 
+                                Where
+                                CONCAT
+                                (
+                                    gy_product_code,
+                                    gy_product_name,
+                                    gy_product_desc,
+                                    gy_product_color,
+                                    gy_product_cat
+                                )
+                                LIKE
+                                '%$search_text%'
+                                Order By 
+                                gy_product_code 
+                                ASC
+                                LIMIT $limit");
+        }
+
+        $count=$statement->num_rows;
+        
+        return $count;
+
+    }
+
+    function selectAlbumSearch($search_text, $limit){
+
+        include 'conn.php';
+
+        if (count($limit)) {
+            $statement=$link->query("SELECT 
+                                * 
+                                From 
+                                gy_products 
+                                Where
+                                CONCAT
+                                (
+                                    gy_product_code,
+                                    gy_product_name,
+                                    gy_product_desc,
+                                    gy_product_color,
+                                    gy_product_cat
+                                )
+                                LIKE
+                                '%$search_text%'
+                                Order By 
+                                gy_product_code 
+                                ASC");
+        } else {
+            $statement=$link->query("SELECT 
+                                * 
+                                From 
+                                gy_products 
+                                Where
+                                CONCAT
+                                (
+                                    gy_product_code,
+                                    gy_product_name,
+                                    gy_product_desc,
+                                    gy_product_color,
+                                    gy_product_cat
+                                )
+                                LIKE
+                                '%$search_text%'
+                                Order By 
+                                gy_product_code 
+                                ASC
+                                LIMIT $limit");
+        }
+        
+        return $statement;
+
+    }
 ?>
