@@ -69,7 +69,7 @@
                         <div class="panel panel-primary">
                             <div class="panel-heading">Product Information</div>
                             <div class="panel-body">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Bar Code <small>*only alphanumeric and dash (-)</small></label>
                                         <input type="text" class="form-control" maxlength="100" id="alphanumericField" name="my_code" autofocus required>
@@ -92,7 +92,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Color</label>
                                         <select name="my_color" class="form-control" required>
@@ -111,7 +111,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Branch</label>
                                         <select class="form-control" name="my_branch" required>
@@ -126,9 +126,9 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Product Image <small>*jpg / png only</small></label>
+                                        <label>Image <small>*jpg / png only</small></label>
                                         <input type="file" class="form-control" name="my_image" accept="png, jpg" >
                                     </div>
                                 </div>
@@ -155,44 +155,28 @@
                             <div class="panel-heading">Product Supplier / Pricing</div>
                             <div class="panel-body">
                                 <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label>Supplier</label>
-                                            <select class="form-control" name="my_supplier" required>
-                                                <option></option>
-                                                <option value="0">None</option>
-                                                <?php 
-                                                    //my suppliers
-                                                    $get_supplier=$link->query("Select * From `gy_supplier` Order By `gy_supplier_name` ASC");
-                                                    while ($supplier_row=$get_supplier->fetch_array()){
-                                                ?>
-                                                <option value="<?php echo $supplier_row['gy_supplier_code']; ?>"><?php echo $supplier_row['gy_supplier_name']; ?></option>
-                                                <?php } ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Price (Capital)</label>
                                             <input type="number" class="form-control" step="0.01" min="0" name="my_price_cap" id="my_price_cap" onkeyup="get_the_price()" required>
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Price (SRP)</label>
                                             <input type="number" class="form-control" step="0.01" min="0" name="my_price_srp" id="my_price_srp" onkeyup="get_the_price()" required>
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Quantity</label>
                                             <input type="number" class="form-control" step="0.01" min="0" name="my_quantity" required>
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Product Unit</label>
                                             <select class="form-control" name="my_unit" required>
@@ -214,7 +198,7 @@
                                         <div class="form-group">
                                             <label>Discount Perct. (%)</label>
                                             <select class="form-control" name="my_discount_limit" id="my_discount_limit" onchange="get_the_price()">
-                                                <option></option>
+                                                <option value="0">0%</option>
                                                 <option value="5">5%</option>
                                                 <option value="10">10%</option>
                                                 <option value="15">15%</option>

@@ -36,7 +36,7 @@
     $count_suppliers=$supplier->num_rows;
 
     //count user numbers
-    $users=$link->query("Select * From `gy_user`");
+    $users=$link->query("Select * From `gy_user` Where `gy_user_type`!='0' AND `gy_user_status`='0' Order By `gy_user_id` ASC");
     $count_users=$users->num_rows;
 
     //count quotation forms numbers
@@ -288,29 +288,6 @@
                         </div>
 
                         <div class="col-md-3">
-                            <div class="panel panel-warning">
-                                <div class="panel-heading">
-                                    <div class="row">
-                                        <div class="col-xs-3">
-                                            <i class="fa fa-truck fa-5x"></i>
-                                        </div>
-                                        <div class="col-xs-9 text-right">
-                                            <div class="huge"><?php echo 0+$transfer_summ_count; ?></div>
-                                            <div></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="transfer_reports" title="click to open stock-transfer summary reports ...">
-                                    <div class="panel-footer">
-                                        <span class="pull-left">Stock-Transfer Summary</span>
-                                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-
-                       <!--  <div class="col-md-3">
                             <div class="panel panel-info">
                                 <div class="panel-heading">
                                     <div class="row">
@@ -318,7 +295,7 @@
                                             <i class="fa fa-user fa-5x"></i>
                                         </div>
                                         <div class="col-xs-9 text-right">
-                                            <div class="huge"><?php #echo number_format(0+$count_users); ?></div>
+                                            <div class="huge"><?php echo number_format(0+$count_users); ?></div>
                                             <div></div>
                                         </div>
                                     </div>
@@ -331,7 +308,28 @@
                                     </div>
                                 </a>
                             </div>
-                        </div> -->
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading text-bold">
+                                    30-Day Sales Statistics
+                                    <span class="pull-right">
+                                        <select name="salesDateSelect" id="salesDateSelect" class="">
+                                            <option value="30">30 days</option>
+                                            <option value="21">3 weeks</option>
+                                            <option value="14">2 weeks</option>
+                                            <option value="7">1 week</option>
+                                        </select>
+                                    </span>
+                                </div>
+                                <div class="panel-body">
+                                    <canvas id="30DaySales"></canvas>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -421,6 +419,7 @@
     </div>
 
     <?php include 'footer.php'; ?>
+    <?php include '_charts.php'; ?>
 
 </body>
 

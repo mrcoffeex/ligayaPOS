@@ -7,9 +7,9 @@
             <li>
                 <a href="products"><i class="fa fa-dropbox fa-fw"></i> Product Inventory</a>
             </li>
-            <li>
+            <!-- <li>
                 <a href="suppliers"><i class="fa fa-briefcase fa-fw"></i> Supplier List</a>
-            </li>
+            </li> -->
             <li>
                 <a href="sales"><i class="fa fa-file-text fa-fw"></i> Transactions</a>
             </li>

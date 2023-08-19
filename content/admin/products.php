@@ -57,7 +57,7 @@
 
     $query_three = "Select * from `gy_products` Order By `gy_product_name` ASC ";
 
-    $my_num_rows = 50;
+    $my_num_rows = 24;
 
     include 'my_pagination.php';
 
@@ -127,218 +127,145 @@
                     
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Product Data Table <span style="color: red;"><?= 0 + $count_products; ?> result(s)</span> 
-                            <a href="album">
-                                <button type="button" class="btn btn-primary btn-sm"><i class="fa fa-image"></i> Album</button>
-                            </a>
-                            <span style="float: right;"> Press <span style="color: blue;">F5</span> to refresh results</span> 
+                            Product List <span style="color: red;"><?= 0 + $count_products; ?> result(s)</span>
+                            <span style="float: right;"><span style="color: blue;">F5</span> to refresh results</span> 
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th><center>Code</center></th>
-                                            <th><center>Description</center></th>
-                                            <th><center>Details</center></th>
-                                            <th><center>Supplier</center></th>
-                                            <th><center>Price (Capt.)</center></th>
-                                            <th><center>Price (SRP)</center></th>
-                                            <th><center>LIMIT</center></th>
-                                            <th><center>Quantity</center></th>
-                                            <th><center>Branch</center></th>
-                                            <th><center>Category / Color</center></th>
-                                            <th><center>Edit</center></th>
-                                            <th><center>Delete</center></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
 
-                                    <?php  
-                                        //get products
-                                        //make pagination
-                                        while ($product_row=$query->fetch_array()) {
+                        <?php  
+                            while ($product_row=$query->fetch_array()) {
 
-                                            //vars
-                                            $my_supplier = $product_row['gy_supplier_code'];
+                                if ($product_row['gy_product_quantity'] <= $product_row['gy_product_restock_limit']) {
+                                    $my_limit = "danger";
+                                }else{
+                                    $my_limit = "default";
+                                }
+                        ?>
 
-                                            //get the Supplier Details
-                                            $get_supplier=$link->query("Select * From `gy_supplier` Where `gy_supplier_code`='$my_supplier'");
-                                            $supplier_row=$get_supplier->fetch_array();
-
-                                            //get restock status
-                                            if ($product_row['gy_product_quantity'] <= $product_row['gy_product_restock_limit']) {
-                                                $my_limit = "danger";
-                                            }else{
-                                                $my_limit = "default";
-                                            }
-
-                                            //disable if no convert item
-                                            if ($product_row['gy_convert_item_code'] != "") {
-
-                                                //chcek if the item cod eis real code
-                                                $check_this=$product_row['gy_convert_item_code'];
-                                                $check_code=$link->query("Select * From `gy_products` Where `gy_product_code`='$check_this'");
-                                                $count_check_res=$check_code->num_rows;
-
-                                                if ($count_check_res > 0) {
-                                                    $null_value = "";
-                                                }else{
-                                                    $null_value = "disabled";
-                                                }
-                                            }else{
-                                                $null_value = "disabled";
-                                            }
-                                    ?>
-
-                                        <tr class="<?php echo $my_limit; ?>">
-                                            <td style="font-weight: bold; padding: 1px;"><center><?php echo $product_row['gy_product_code']; ?></center></td>
-                                            <td style="padding: 1px;"><center><a href="previewImage?productId=<?= $product_row['gy_product_id'] ?>" onclick="window.open(this.href, 'mywin', 'left=20, top=20, width=1280, height=720, toolbar=1, resizable=0'); return false;"><?php echo $product_row['gy_product_name']; ?></a></center></td>
-                                            <td style="padding: 1px;"><center><button type="button" class="btn btn-info" title="click to see product details" data-target="#details_<?php echo $product_row['gy_product_id']; ?>" data-toggle="modal"><i class="fa fa-list fa-fw"></i></button></center></td>
-                                            <td style="padding: 1px;"><center><button type="button" class="btn btn-warning" title="click to see supplier details" data-target="#supplier_<?php echo $product_row['gy_product_id']; ?>" data-toggle="modal"><i class="fa fa-user fa-fw"></i></button></center></td>
-                                            <td style="padding: 1px;"><center><?php echo number_format($product_row['gy_product_price_cap'],2); ?></center></td>
-                                            <td style="padding: 1px;"><center><?php echo number_format($product_row['gy_product_price_srp'],2); ?></center></td>
-                                            <td style="padding: 1px;"><center><?php echo number_format($product_row['gy_product_discount_per'],2); ?></center></td>
-                                            <td style="padding: 1px;"><center><?php echo $product_row['gy_product_quantity']." ".$product_row['gy_product_unit']; ?></center></td>
-                                            <td style="font-weight: bold; padding: 1px;"><center><?php echo get_branch_name($product_row['gy_branch_id']); ?></center></td>
-                                            <td style="font-weight: bold; padding: 1px;"><center><?php echo $product_row['gy_product_cat']; ?> / <?php echo $product_row['gy_product_color']; ?></center></td>
-                                            <td style="padding: 1px;"><center><a href="edit_product?cd=<?php echo $product_row['gy_product_id']; ?>&pn=<?= $pagenum; ?>&s_type=normal"><button type="button" class="btn btn-info" title="click to edit product details"><i class="fa fa-edit fa-fw"></i></button></a></center></td>
-                                            <td style="padding: 1px;"><center><button type="button" class="btn btn-danger" title="click to delete product" data-target="#delete_<?php echo $product_row['gy_product_id']; ?>" data-toggle="modal"><i class="fa fa-trash-o fa-fw"></i></button></center></td>
-                                        </tr>
-
-                                        <!-- Product Details -->
-                                        
-                                        <div class="modal fade" id="details_<?php echo $product_row['gy_product_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                        <center><h4 class="modal-title" id="myModalLabel"><u><?php echo $product_row['gy_product_name']; ?></u> Info</h4></center>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <div class="panel-body">
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div class="panel panel-yellow" style="border-radius: 0px;">
-                                                                        <div class="panel-heading" style="border-radius: 0px;">
-                                                                            Product Info
-                                                                        </div>
-                                                                        <div class="panel-body">
-                                                                            <div class="row">
-                                                                                <div class="col-md-4">
-                                                                                    <p>
-                                                                                        Bar Code: <br>
-                                                                                        Category / Color: <br>
-                                                                                        Name: <br>
-                                                                                        Description: <br>
-                                                                                        Supplier: <br>
-                                                                                        Unit: <br>
-                                                                                        Price (Capt.): <br>
-                                                                                        Price (SRP): <br>
-                                                                                        Quantity: <br>
-                                                                                        Restock Limit: <br>
-                                                                                        Date Restocked: <br>
-                                                                                        Date Registered: <br>
-                                                                                        Last Update: <br>
-                                                                                        Image: <br>
-                                                                                    </p>
-                                                                                </div>
-                                                                                <div class="col-md-8">
-                                                                                    <p class="text-bold">
-                                                                                        <u><?php echo $product_row['gy_product_code']; ?></u><br>
-                                                                                        <u><?php echo $product_row['gy_product_cat'] . " / " . $product_row['gy_product_color']; ?></u><br>
-                                                                                        <u><?php echo $product_row['gy_product_name']; ?></u><br>
-                                                                                        <u><?php echo $product_row['gy_product_desc']; ?></u><br>
-                                                                                        <u><?php echo $supplier_row['gy_supplier_name']; ?></u><br>
-                                                                                        <u><?php echo $product_row['gy_product_unit']; ?></u><br>
-                                                                                        <u>Php <?php echo number_format($product_row['gy_product_price_cap'],2); ?></u><br/>
-                                                                                        <u>Php <?php echo number_format($product_row['gy_product_price_srp'],2); ?></u><br/>
-                                                                                        <u><?php echo $product_row['gy_product_quantity']." ".$product_row['gy_product_unit']; ?></u><br/>
-                                                                                        <u><?php echo $product_row['gy_product_restock_limit']." ".$product_row['gy_product_unit']; ?></u><br/>
-                                                                                        <u><?php echo date("F d, Y g:i:s A", strtotime($product_row['gy_product_date_restock'])); ?></u><br/>
-                                                                                        <u><?php echo  date("F d, Y g:i:s A", strtotime($product_row['gy_product_date_reg'])); ?></u><br/>
-                                                                                        <u><?php echo  date("F d, Y g:i:s A", strtotime($product_row['gy_product_update_date'])); ?></u><br/>
-                                                                                        <a href="previewImage?productId=<?= $product_row['gy_product_id'] ?>" onclick="window.open(this.href, 'mywin', 'left=20, top=20, width=1280, height=720, toolbar=1, resizable=0'); return false;">click to show image</a>
-                                                                                    </p>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                            <div class="col-lg-2 col-md-3 col-xs-12">
+                                <div class="panel panel-<?= $my_limit ?>">
+                                    <div class="panel-body">
+                                        <div class="row text-<?= $my_limit ?>">
+                                            <div class="col-md-12" style="padding-left: 0px; padding-right: 0px;">
+                                                <img src="<?= displayImage($product_row['gy_product_image'], '../../img/no_image.jpg', '../../mrcoffeexpicturebox/') ?>" class="img-responsive" style="max-height: 250px; width: 100%;" alt="">
+                                            </div>
+                                            <div class="col-md-12 text-bold" style="margin-top: 5px;">
+                                                <?= $product_row['gy_product_code'] ?>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <?= $product_row['gy_product_name'] ?>
+                                            </div>
+                                            <div class="col-md-12 text-bold">
+                                                Php <?= number_format($product_row['gy_product_price_srp'], 2) ?>
+                                                <span class="pull-right"><?= $product_row['gy_product_quantity'] . " " . $product_row['gy_product_unit'] ?></span>
+                                            </div>
+                                            <div class="col-md-6" style="padding-left: 1px; padding-right: 1px; margin-top: 5px;">
+                                                <button type="button" class="btn btn-warning btn-block" title="click to see product details" data-target="#details_<?php echo $product_row['gy_product_id']; ?>" data-toggle="modal" style="border-radius: 0px;"><i class="fa fa-list fa-fw"></i></button>
+                                            </div>
+                                            <div class="col-md-6" style="padding-left: 1px; padding-right: 1px; margin-top: 5px;">
+                                                <a href="edit_product?cd=<?php echo $product_row['gy_product_id']; ?>&pn=<?= $pagenum; ?>&s_type=normal">
+                                                    <button type="button" class="btn btn-info btn-block" title="click to edit product details" style="border-radius: 0px;"><i class="fa fa-edit fa-fw"></i></button>
+                                                </a>
+                                            </div>
+                                            <div class="col-md-12" style="padding-left: 1px; padding-right: 1px; margin-top: 5px;">
+                                                <button type="button" class="btn btn-danger btn-block" title="click to delete product" data-target="#delete_<?php echo $product_row['gy_product_id']; ?>" data-toggle="modal"><i class="fa fa-trash-o fa-fw"></i> Delete</button>
                                             </div>
                                         </div>
-
-                                        <!-- Supplier Modal -->
-
-                                        <div class="modal fade" id="supplier_<?php echo $product_row['gy_product_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                        <center><h4 class="modal-title" id="myModalLabel"><u><?php echo $product_row['gy_product_name']; ?></u> Info</h4></center>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <div class="panel-body">
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div class="panel panel-yellow" style="border-radius: 0px;">
-                                                                        <div class="panel-heading" style="border-radius: 0px;">
-                                                                            Supplier Info
-                                                                        </div>
-                                                                        <div class="panel-body">
-                                                                            <div class="table-responsive">
-                                                                                <p>
-                                                                                    Supplier Code: <u><?php echo $supplier_row['gy_supplier_code']; ?></u><br>
-                                                                                    Supplier Name: <u><?php echo $supplier_row['gy_supplier_name']; ?></u><br>
-                                                                                    Supplier Description: <u><?php echo $supplier_row['gy_supplier_desc']; ?></u><br>
-                                                                                    Supplier Address: <u><?php echo $supplier_row['gy_supplier_address']; ?></u><br>
-                                                                                    Supplier Contact #: <u><?php echo $supplier_row['gy_supplier_contact']; ?></u>
-                                                                                </p>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Delete -->
-
-                                        <div class="modal fade" id="delete_<?php echo $product_row['gy_product_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
-                                                        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-trash-o fa-fw"></i> Delete Product <small style="color: #337ab7;">(press TAB to type/press ENTER to process)</small></h4>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <form method="post" enctype="multipart/form-data" action="delete_product?cd=<?php echo $product_row['gy_product_id']; ?>">
-                                                            <div class="row">
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group">
-                                                                        <label><i class="fa fa-lock fa-fw"></i> Delete Secure PIN</label>
-                                                                        <input type="password" name="my_secure_pin" class="form-control" autofocus required>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    <?php } ?>
-                                    </tbody>
-                                </table>
+                                    </div>
+                                </div>
                             </div>
+
+                            <!-- Product Details -->
+                            
+                            <div class="modal fade" id="details_<?php echo $product_row['gy_product_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <center><h4 class="modal-title" id="myModalLabel"><u><?php echo $product_row['gy_product_name']; ?></u> Info</h4></center>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="panel panel-yellow" style="border-radius: 0px;">
+                                                            <div class="panel-heading" style="border-radius: 0px;">
+                                                                Product Info
+                                                            </div>
+                                                            <div class="panel-body">
+                                                                <div class="row">
+                                                                    <div class="col-md-4">
+                                                                        <p>
+                                                                            Bar Code: <br>
+                                                                            Category / Color: <br>
+                                                                            Name: <br>
+                                                                            Description: <br>
+                                                                            Unit: <br>
+                                                                            Price (Capt.): <br>
+                                                                            Price (SRP): <br>
+                                                                            Quantity: <br>
+                                                                            Restock Limit: <br>
+                                                                            Date Restocked: <br>
+                                                                            Date Registered: <br>
+                                                                            Last Update: <br>
+                                                                            Image: <br>
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="col-md-8">
+                                                                        <p class="text-bold">
+                                                                            <u><?php echo $product_row['gy_product_code']; ?></u><br>
+                                                                            <u><?php echo $product_row['gy_product_cat'] . " / " . $product_row['gy_product_color']; ?></u><br>
+                                                                            <u><?php echo $product_row['gy_product_name']; ?></u><br>
+                                                                            <u><?php echo $product_row['gy_product_desc']; ?></u><br>
+                                                                            <u><?php echo $product_row['gy_product_unit']; ?></u><br>
+                                                                            <u>Php <?php echo number_format($product_row['gy_product_price_cap'],2); ?></u><br/>
+                                                                            <u>Php <?php echo number_format($product_row['gy_product_price_srp'],2); ?></u><br/>
+                                                                            <u><?php echo $product_row['gy_product_quantity']." ".$product_row['gy_product_unit']; ?></u><br/>
+                                                                            <u><?php echo $product_row['gy_product_restock_limit']." ".$product_row['gy_product_unit']; ?></u><br/>
+                                                                            <u><?php echo date("F d, Y g:i:s A", strtotime($product_row['gy_product_date_restock'])); ?></u><br/>
+                                                                            <u><?php echo  date("F d, Y g:i:s A", strtotime($product_row['gy_product_date_reg'])); ?></u><br/>
+                                                                            <u><?php echo  date("F d, Y g:i:s A", strtotime($product_row['gy_product_update_date'])); ?></u><br/>
+                                                                            <a href="previewImage?productId=<?= $product_row['gy_product_id'] ?>" onclick="window.open(this.href, 'mywin', 'left=20, top=20, width=1280, height=720, toolbar=1, resizable=0'); return false;">click to show image</a>
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Delete -->
+
+                            <div class="modal fade" id="delete_<?php echo $product_row['gy_product_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-sm">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <h4 class="modal-title" id="myModalLabel"><i class="fa fa-trash-o fa-fw"></i> Delete Product</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="post" enctype="multipart/form-data" action="delete_product?cd=<?php echo $product_row['gy_product_id']; ?>">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label><i class="fa fa-lock fa-fw"></i> Delete Secure PIN</label>
+                                                            <input type="password" name="my_secure_pin" class="form-control" autofocus required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        <?php } ?>
                         </div>
                     </div>
                 </div>

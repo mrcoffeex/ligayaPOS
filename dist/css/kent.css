@@ -74,3 +74,7 @@
 #exp:hover{
 	background: rgb(253, 128, 128);
 }
+
+.text-bold{
+	font-weight: bold;
+}

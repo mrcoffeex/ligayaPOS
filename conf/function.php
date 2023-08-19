@@ -447,4 +447,43 @@
         return $statement;
 
     }
+
+    // sales
+
+    function getSalesStats($date1, $date2){
+
+        include 'conn.php';
+
+        $statement=$link->query("SELECT DATE_FORMAT(date(gy_trans_date), '%b %e, %Y') as sales_date, SUM(gy_trans_total) AS sales
+                                FROM gy_transaction
+                                WHERE 
+                                gy_user_id != 0 AND
+                                date(gy_trans_date) 
+                                BETWEEN
+                                '$date1' AND '$date2' 
+                                GROUP BY date(gy_trans_date)");
+
+        return $statement;
+
+    }
+
+    function getLatestDate(){
+
+        include 'conn.php';
+
+        $statement=$link->query("SELECT 
+                                date(gy_trans_date) as latest_date 
+                                From 
+                                gy_transaction 
+                                WHERE 
+                                gy_user_id != 0
+                                Order By
+                                gy_trans_date
+                                DESC
+                                LIMIT 1");
+        $res=$statement->fetch_array();
+
+        return $res['latest_date'];
+
+    }
 ?>

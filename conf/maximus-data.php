@@ -1,6 +1,6 @@
 <?php  
 	$servername = "localhost";
 	$username = "root";
-	$password = "";
+	$password = "semicircle123";
 	$dbname = "botique_data";
 ?>
