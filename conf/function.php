@@ -333,28 +333,16 @@
 
         include 'conn.php';
 
-        if (count($limit)) {
-            $statement=$link->query("SELECT 
-                                * 
-                                From 
-                                gy_products 
-                                Where
-                                gy_product_quantity != 0
-                                Order By 
-                                gy_product_code 
-                                ASC");
-        } else {
-            $statement=$link->query("SELECT 
-                                * 
-                                From 
-                                gy_products 
-                                Where
-                                gy_product_quantity != 0
-                                Order By 
-                                gy_product_code 
-                                ASC
-                                LIMIT $limit");
-        }
+        $statement=$link->query("SELECT 
+                            * 
+                            From 
+                            gy_products 
+                            Where
+                            gy_product_quantity != 0
+                            Order By 
+                            gy_product_code 
+                            ASC
+                            LIMIT $limit");
         
         return $statement;
 
