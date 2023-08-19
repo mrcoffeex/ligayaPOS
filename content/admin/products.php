@@ -154,7 +154,7 @@
                                                 <?= $product_row['gy_product_code'] ?>
                                             </div>
                                             <div class="col-md-12">
-                                                <?= $product_row['gy_product_name'] ?>
+                                                <?= stringLimit($product_row['gy_product_name'], 27) ?>
                                             </div>
                                             <div class="col-md-12 text-bold">
                                                 Php <?= number_format($product_row['gy_product_price_srp'], 2) ?>

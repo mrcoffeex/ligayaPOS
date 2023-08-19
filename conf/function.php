@@ -21,6 +21,17 @@
 		return $not_fake;
 	} 
 
+    function stringLimit($name, $limit){
+
+        if (strlen($name) > $limit){
+            $name = substr($name, 0, $limit) . '...';
+        }else{
+            $name = $name;
+        }
+
+        return $name;
+    }
+
 	function get_curr_age($birthday){
         //values
         $date_now = strtotime(date("Y-m-d"));
