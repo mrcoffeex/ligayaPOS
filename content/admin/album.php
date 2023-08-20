@@ -133,7 +133,7 @@
                                                 <?= $product_row['gy_product_code'] ?>
                                             </div>
                                             <div class="col-md-12">
-                                                <?= stringLimit($product_row['gy_product_name'], 27) ?>
+                                                <?= stringLimit($product_row['gy_product_name'], 21) ?>
                                             </div>
                                             <div class="col-md-6" style="padding-left: 1px; padding-right: 1px; margin-top: 5px;">
                                                 <button type="button" class="btn btn-warning btn-block" title="click to see product details" data-target="#details_<?php echo $product_row['gy_product_id']; ?>" data-toggle="modal" style="border-radius: 0px;"><i class="fa fa-list fa-fw"></i></button>
