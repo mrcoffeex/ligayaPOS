@@ -503,6 +503,67 @@
 
     }
 
+    function getProductCode($productId){
+
+        include 'conn.php';
+
+        $statement=$link->query("SELECT
+                                gy_product_code
+                                FROM
+                                gy_products
+                                Where
+                                gy_product_id = '$productId'");
+        $res=$statement->fetch_array();
+
+        return $res['gy_product_code'];
+
+    }
+
+    // transactions
+
+    function selectItemsSold($date1, $date2){
+
+        include 'conn.php';
+
+        $statement=$link->query("SELECT 
+                                DISTINCT(gy_trans_details.gy_product_id) as item_sold, gy_product_name, gy_product_cat, gy_product_color, gy_product_unit
+                                FROM
+                                gy_trans_details
+                                LEFT JOIN
+                                gy_products
+                                ON
+                                gy_trans_details.gy_product_id = gy_products.gy_product_id
+                                Where
+                                gy_transdet_date
+                                BETWEEN
+                                '$date1' AND '$date2'
+                                Order By
+                                gy_products.gy_product_name
+                                ASC");
+        return $statement;
+
+    }
+
+    function getItemSoldQty($date1, $date2, $productId){
+
+        include 'conn.php';
+
+        $statement=$link->query("SELECT
+                                SUM(gy_trans_quantity) as total_sold
+                                FROM
+                                gy_trans_details
+                                Where
+                                gy_product_id = '$productId'
+                                AND
+                                gy_transdet_date
+                                BETWEEN
+                                '$date1' AND '$date2'");
+        $res=$statement->fetch_array();
+
+        return $res['total_sold'];
+
+    }
+
     // sales
 
     function getSalesStats($date1, $date2){
@@ -585,4 +646,5 @@
         return $res['total_exp'];
 
     }
+    
 ?>

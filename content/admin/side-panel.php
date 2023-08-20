@@ -10,9 +10,9 @@
             <li>
                 <a href="album"><i class="fa fa-image fa-fw"></i> Product Image</a>
             </li>
-            <!-- <li>
-                <a href="suppliers"><i class="fa fa-briefcase fa-fw"></i> Supplier List</a>
-            </li> -->
+            <li>
+                <a href="sold"><i class="fa fa-check fa-fw"></i> Items Sold</a>
+            </li>
             <li>
                 <a href="sales"><i class="fa fa-file-text fa-fw"></i> Transactions</a>
             </li>

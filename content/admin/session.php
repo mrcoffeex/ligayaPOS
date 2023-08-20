@@ -20,4 +20,6 @@
     $user_info = $row['gy_full_name'];
     $user_id = $row['gy_user_id'];
 
+    $dateNow = date("Y-m-d");
+
 ?>

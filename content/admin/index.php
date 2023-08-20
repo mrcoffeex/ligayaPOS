@@ -208,7 +208,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a href="expenses" title="click to view stocks expenses ...">
+                                <a href="expenses_cash" title="click to view stocks expenses ...">
                                     <div class="panel-footer">
                                         <span class="pull-left">Cash Expense</span>
                                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

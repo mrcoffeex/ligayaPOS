@@ -430,6 +430,18 @@ include("../../conf/my_project.php");
             header("location: albumSearch?br=$branch_product&search_text=$image_search");
         }
     }
+
+    //search sold
+    if (isset($_POST['soldBtn'])) {
+        $soldFrom = words($_POST['soldFrom']);
+        $soldTo = words($_POST['soldTo']);
+
+        if (empty($soldFrom) || empty($soldTo)) {
+            header("location: sold?cd=empty_search");
+        }else{
+            header("location: soldSearch?datef=$soldFrom&datet=$soldTo");
+        }
+    }
 ?>
 
 <!DOCTYPE html>

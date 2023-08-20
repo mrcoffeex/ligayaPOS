@@ -4,7 +4,6 @@
     include("session.php");
     include("../../conf/my_project.php");
 
-
     $my_project_header_title = "Product Inventory";
 
     $my_notification = @$_GET['note'];
@@ -269,7 +268,7 @@
                                                         <h4 class="modal-title" id="myModalLabel"><i class="fa fa-trash-o fa-fw"></i> Delete Product</h4>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <form method="post" enctype="multipart/form-data" action="delete_product?cd=<?php echo $product_row['gy_product_id']; ?>">
+                                                        <form method="post" enctype="multipart/form-data" action="delete_product?cd=<?php echo $product_row['gy_product_id']; ?>&pn=<?= $pagenum ?>&s_type=normal">
                                                             <div class="row">
                                                                 <div class="col-md-12">
                                                                     <div class="form-group">

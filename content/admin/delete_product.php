@@ -5,6 +5,16 @@
     include("../../conf/my_project.php");
 
     $my_dir_value=$_GET['cd'];
+    $s_type = @$_GET['s_type'];
+    $br = @$_GET['br'];
+    $pn = @$_GET['pn'];
+    $search_text = @$_GET['search_text'];
+
+    if ($s_type == "normal") {
+        $redirectTo = "products?pn=$pn";
+    }else{
+        $redirectTo = "search_product?pn=$pn&search_text=$search_text&br=$br";
+    }
     
     //add member
     if (isset($_POST['my_secure_pin'])) {
@@ -29,14 +39,14 @@
             if ($delete_product) {
                 $my_note_text = $dname." was removed from products";
                 my_notify($my_note_text,$user_info);
-                header("location: products?note=delete");
+                header("location: " . $redirectTo . "&note=delete");
             }else{
-                header("location: products?note=error");
+                header("location: " . $redirectTo . "&note=error");
             }
 
     		
     	}else{
-    		header("location: products?note=pin_out");
+    		header("location: " . $redirectTo . "&note=pin_out");
     	}
     }
 ?>

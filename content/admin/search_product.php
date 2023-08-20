@@ -7,6 +7,39 @@
     $br = @$_GET['br'];
     $search_text = @$_GET['search_text'];
 
+    $my_notification = @$_GET['note'];
+
+    if ($my_notification == "nice_update") {
+        $the_note_status = "visible";
+        $color_note = "success";
+        $message = "Product is Updated";
+    }else if ($my_notification == "error") {
+        $the_note_status = "visible";
+        $color_note = "danger";
+        $message = "Theres something wrong here";
+    }else if ($my_notification == "only_space") {
+        $the_note_status = "visible";
+        $color_note = "danger";
+        $message = "White spaces is not allowed.";
+    }else if ($my_notification == "only_zero") {
+        $the_note_status = "visible";
+        $color_note = "danger";
+        $message = "Only zero (0) is not allowed";
+    }else if ($my_notification == "pin_out") {
+        $the_note_status = "visible";
+        $color_note = "warning";
+        $message = "Incorrect PIN";
+    }else if ($my_notification == "delete") {
+        $the_note_status = "visible";
+        $color_note = "success";
+        $message = "Product Deleted";
+    }else{
+        $the_note_status = "hidden";
+        $color_note = "default";
+        $message = "";
+    }
+
+
     if ($search_text == "mrcoffeex_only_space") {
          echo "
             <script>
@@ -111,8 +144,15 @@
         <div id="page-wrapper">
 
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-8">
                     <h3 class="page-header"><i class="fa fa-search"></i> <?php echo $my_project_header_title; ?></h3>
+                </div>
+                <div class="col-lg-4">
+                    <!-- notification here -->
+                    <div class="alert alert-<?php echo @$color_note; ?> alert-dismissable" id="my_note" style="margin-top: 12px; visibility: <?php echo @$the_note_status; ?>">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <?php echo @$message; ?>.
+                    </div>
                 </div>
             </div>
             <div class="row">
@@ -304,7 +344,7 @@
                                                         <h4 class="modal-title" id="myModalLabel"><i class="fa fa-trash-o fa-fw"></i> Delete Product</h4>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <form method="post" enctype="multipart/form-data" action="delete_product?cd=<?php echo $product_row['gy_product_id']; ?>">
+                                                        <form method="post" enctype="multipart/form-data" action="delete_product?cd=<?php echo $product_row['gy_product_id']; ?>&pn=<?= $pagenum ?>&s_type=search&search_text=<?= $search_text ?>&br=<?= $br ?>">
                                                             <div class="row">
                                                                 <div class="col-md-12">
                                                                     <div class="form-group">
