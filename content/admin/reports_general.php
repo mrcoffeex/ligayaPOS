@@ -160,7 +160,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <!-- <div class="col-md-3">
                             <div class="panel panel-warning">
                                 <div class="panel-heading">
                                     <div class="row">
@@ -168,7 +168,7 @@
                                             <i class="fa fa-truck fa-5x"></i>
                                         </div>
                                         <div class="col-xs-9 text-right">
-                                            <div class="huge"><?php echo 0+$transfer_summ_count; ?></div>
+                                            <div class="huge"><?php #echo 0+$transfer_summ_count; ?></div>
                                             <div></div>
                                         </div>
                                     </div>
@@ -181,7 +181,7 @@
                                     </div>
                                 </a>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>

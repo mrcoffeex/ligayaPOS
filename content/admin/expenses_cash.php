@@ -237,16 +237,16 @@
                                         <!-- Delete -->
 
                                         <div class="modal fade" id="delete_<?php echo $exp_row['gy_exp_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
+                                            <div class="modal-dialog modal-sm">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
-                                                        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-trash-o fa-fw"></i> Delete Expenses <small style="color: #337ab7;">(press TAB to type/press ENTER to process)</small></h4>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-trash-o fa-fw"></i> Delete</h4>
                                                     </div>
                                                     <div class="modal-body">
                                                         <form method="post" enctype="multipart/form-data" action="delete_exp?cd=<?php echo $exp_row['gy_exp_id']; ?>&sd=expenses_cash">
                                                             <div class="row">
-                                                                <div class="col-md-6">
+                                                                <div class="col-md-12">
                                                                     <div class="form-group">
                                                                         <label>Delete Secure PIN</label>
                                                                         <input type="password" name="my_secure_pin" class="form-control" autofocus required>

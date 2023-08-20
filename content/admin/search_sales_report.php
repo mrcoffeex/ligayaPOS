@@ -119,6 +119,9 @@
                                 //get number of transactions
                                 $get_trans_quantity=$link->query("Select * From `gy_transaction` Where `gy_user_id`='$my_master_id' AND date(`gy_trans_date`)='$date1'");
                                 $total_trans_num=$get_trans_quantity->num_rows;
+
+                                //total expenses
+                                $totalExpenses = getTotalExpenses($date1, $date1, $my_dir_value);
                         ?>
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -231,7 +234,7 @@
                                                 <table class="table table-striped table-bordered table-hover">
                                                     <thead>
                                                         <tr>
-                                                            <th colspan="2" style="font-weight: bold; color: green;"><center>RETAIL SALES</center></th>
+                                                            <th colspan="2" style="font-weight: bold; color: green;"><center>GROSS SALES</center></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -271,8 +274,39 @@
                                                                 </tr>
                                                         <?php } ?>
                                                             <tr>
-                                                                <td style="font-weight: bold; color: green;"><center>TOTAL RETAIL SALES</center></td>
+                                                                <td style="font-weight: bold; color: green;"><center>TOTAL GROSS SALES</center></td>
                                                                 <td style="font-weight: bold; color: green; "><center><?php echo @number_format(0+$grand_total,2); ?></center></td>
+                                                            </tr>
+                                                        </tbody>
+                                                </table>                                     
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <table class="table table-striped table-bordered table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th colspan="3" style="font-weight: bold; color: red;"><center>Expenses</center></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php  
+                                                            //get salesman
+                                                            $totalExpenses=0;
+                                                            $getExpenses=selectExpenses($date1, $date1, $my_dir_value);
+                                                            $countExpenses=$getExpenses->num_rows;
+                                                            while ($exp=$getExpenses->fetch_array()) {
+                                                                $totalExpenses += $exp['gy_exp_amount'];
+                                                        ?>
+                                                            <tr>
+                                                                <td style="font-weight: bold; color: red;"><center><?php echo $exp['gy_exp_date']; ?></center></td>
+                                                                <td style="font-weight: bold; color: red;"><center><?php echo @number_format(0 + $exp['gy_exp_amount'],2); ?></center></td>
+                                                                <td style="font-weight: bold; color: red;"><center><?php echo $exp['gy_exp_note']; ?></center></td>
+                                                            </tr>
+                                                        <?php } ?>
+                                                            <tr>
+                                                                <td style="font-weight: bold; color: red;"><center>TOTAL EXPENSES</center></td>
+                                                                <td style="font-weight: bold; color: red; "><center><?php echo @number_format(0+$totalExpenses,2); ?></center></td>
+                                                                <td style="font-weight: bold; color: red;">&nbsp;</td>
                                                             </tr>
                                                         </tbody>
                                                 </table>                                     
@@ -291,16 +325,20 @@
                                                             <td style="font-weight: bold; color: blue;"><center><?php echo 0+$total_trans_num; ?></center></td>
                                                         </tr>
                                                         <tr>
-                                                            <td style="font-weight: bold; color: green;"><center>TOTAL RETAIL SALES</center></td>
+                                                            <td style="font-weight: bold; color: green;"><center>TOTAL GROSS SALES</center></td>
                                                             <td style="font-weight: bold; color: green; "><center><?php echo @number_format(0 + $grand_total,2); ?></center></td>
                                                         </tr>
                                                         <tr>
+                                                            <td style="font-weight: bold; color: red;"><center>EXPENSES</center></td>
+                                                            <td style="font-weight: bold; color: red;"><center><?php echo @number_format(0 + $totalExpenses,2); ?></center></td>
+                                                        </tr> 
+                                                        <tr>
                                                             <td style="font-weight: bold; color: red;"><center>REPLACE/REFUND</center></td>
                                                             <td style="font-weight: bold; color: red;"><center><?php echo @number_format(0 + $total_ref_rep,2); ?></center></td>
-                                                        </tr>  
+                                                        </tr>   
                                                         <tr>
                                                             <td style="font-weight: bold; color: blue;"><center>NET SALES</center></td>
-                                                            <td style="font-weight: bold; color: blue;"><center><?php echo @number_format(0 + $grand_total  - $total_ref_rep,2); ?></center></td>
+                                                            <td style="font-weight: bold; color: blue;"><center><?php echo @number_format((0 + $grand_total) - ($totalExpenses + $total_ref_rep),2); ?></center></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -326,28 +364,23 @@
                                                             //my capitals
                                                             @$my_total_cap += $deta_row['gy_product_price_cap'] * $my_quantity;
                                                         }
+
+                                                        $netSales = (0 + $grand_total) - ($totalExpenses + $total_ref_rep);
+                                                        $totalIncome = $netSales - $my_total_cap;
                                                     ?>
 
                                                     <tbody>
                                                         <tr>
-                                                            <td style="font-weight: bold; color: #000;"><center>TOTAL RETAIL SALES</center></td>
-                                                            <td style="font-weight: bold; color: #000; "><center><?php echo @number_format(0 + $grand_total,2); ?></center></td>
+                                                            <td style="font-weight: bold; color: #000;"><center>NET SALES</center></td>
+                                                            <td style="font-weight: bold; color: #000; "><center><?php echo @number_format(0 + $netSales,2); ?></center></td>
                                                         </tr>
                                                         <tr>
                                                             <td style="font-weight: bold; color: #000;"><center>CAPITAL TOTAL</center></td>
                                                             <td style="font-weight: bold; color: #000; "><center><?php echo @number_format(0 + $my_total_cap,2); ?></center></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td style="font-weight: bold; color: green;"><center>INCOME</center></td>
-                                                            <td style="font-weight: bold; color: green; "><center><?php echo @number_format((0 + $grand_total) - $my_total_cap,2); ?></center></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td style="font-weight: bold; color: red;"><center>REPLACE/REFUND</center></td>
-                                                            <td style="font-weight: bold; color: red;"><center><?php echo @number_format(0 + $total_ref_rep,2); ?></center></td>
-                                                        </tr>  
+                                                        </tr> 
                                                         <tr>
                                                             <td style="font-weight: bold; color: blue;"><center>FINAL INCOME</center></td>
-                                                            <td style="font-weight: bold; color: blue;"><center><?php echo @number_format(0+ ($grand_total - $my_total_cap) - ($total_ref_rep),2); ?></center></td>
+                                                            <td style="font-weight: bold; color: blue;"><center><?php echo @number_format(0 + $totalIncome,2); ?></center></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>

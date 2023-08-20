@@ -418,28 +418,18 @@ include("../../conf/my_project.php");
     }
 
     //search album
-    if (isset($_POST['searchAlbum'])) {
-        $searchAlbum = words($_POST['searchAlbum']);
+    if (isset($_POST['image_search'])) {
+        $branch_product = words($_POST['branch_product']);
+        $image_search = words($_POST['image_search']);
 
-        if (ctype_space($searchAlbum)) {
-            header("location: album?search_text=mrcoffeex_only_space");
-        }else if ($searchAlbum == "0") {
-            header("location: album?search_text=mrcoffeex_only_zero");
-        }else if ($searchAlbum) {
-            header("location: albumSearch?search_text=$searchAlbum");
+        if (ctype_space($image_search)) {
+            header("location: albumSearch?br=$branch_product&search_text=mrcoffeex_only_space");
+        }else if ($image_search == "0") {
+            header("location: albumSearch?br=$branch_product&search_text=mrcoffeex_only_zero");
+        }else{
+            header("location: albumSearch?br=$branch_product&search_text=$image_search");
         }
     }
-
-    //search sales report
-    // if (isset($_POST['submit_sales_report_sales'])) {
-    //     $my_date = words($_POST['my_date']);
-
-    //     if ($my_date == "") {
-    //         header("location: sales_report?note=empty_search");
-    //     }else{
-    //         header("location: search_sales_report?date=$my_date");
-    //     }
-    // }
 ?>
 
 <!DOCTYPE html>

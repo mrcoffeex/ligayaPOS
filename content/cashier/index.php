@@ -122,7 +122,7 @@
                                         <!-- Delete -->
 
                                         <div class="modal fade" id="delete_<?php echo $quotation_row['gy_trans_code']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
+                                            <div class="modal-dialog modal-sm">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
@@ -131,7 +131,7 @@
                                                     <div class="modal-body">
                                                         <form method="post" enctype="multipart/form-data" action="delete_order?cd=<?php echo $quotation_row['gy_trans_code']; ?>">
                                                             <div class="row">
-                                                                <div class="col-md-6">
+                                                                <div class="col-md-12">
                                                                     <div class="form-group">
                                                                         <label><i class="fa fa-lock fa-fw"></i> ADMIN PIN</label>
                                                                         <input type="password" name="my_secure_pin" class="form-control" autofocus required>

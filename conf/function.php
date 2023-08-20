@@ -32,6 +32,30 @@
         return $name;
     }
 
+    function proper_date($datetime){
+
+        if ($datetime == "") {
+            $res = "";
+        }else{
+            $res = date("Md Y", strtotime($datetime));
+        }
+
+        return $res;
+
+    }
+
+    function proper_time($datetime){
+
+        if ($datetime == "") {
+            $res = "";
+        }else{
+            $res = date("g:i A", strtotime($datetime));
+        }
+
+        return $res;
+
+    }
+
 	function get_curr_age($birthday){
         //values
         $date_now = strtotime(date("Y-m-d"));
@@ -307,6 +331,8 @@
 
     }
 
+    // products
+
     function countAlbum($limit){
 
         include 'conn.php';
@@ -459,6 +485,24 @@
 
     }
 
+    function updateProductImage($image, $productId){
+
+        include 'conn.php';
+
+        $statement=$link->query("UPDATE
+                                    gy_products
+                                    SET
+                                    gy_product_image = '$image'
+                                    Where
+                                    gy_product_id = '$productId'");
+        if ($statement) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
     // sales
 
     function getSalesStats($date1, $date2){
@@ -495,6 +539,50 @@
         $res=$statement->fetch_array();
 
         return $res['latest_date'];
+
+    }
+
+    //expenses
+
+    function selectExpenses($date1, $date2, $userId){
+
+        include 'conn.php';
+
+        $statement=$link->query("SELECT 
+                                * 
+                                From 
+                                gy_expenses 
+                                WHERE 
+                                gy_user_id = '$userId'
+                                AND
+                                date(gy_exp_date) 
+                                BETWEEN
+                                '$date1' AND '$date2'
+                                Order By
+                                gy_exp_date
+                                ASC");
+
+        return $statement;
+
+    }
+
+    function getTotalExpenses($date1, $date2, $userId){
+
+        include 'conn.php';
+
+        $statement=$link->query("SELECT 
+                                SUM(gy_exp_amount) as total_exp 
+                                From 
+                                gy_expenses 
+                                WHERE 
+                                gy_user_id = '$userId'
+                                AND
+                                date(gy_exp_date) 
+                                BETWEEN
+                                '$date1' AND '$date2'");
+        $res=$statement->fetch_array();
+
+        return $res['total_exp'];
 
     }
 ?>

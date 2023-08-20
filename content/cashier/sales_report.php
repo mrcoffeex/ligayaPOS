@@ -19,6 +19,9 @@
         @$total_ref_rep += $ref_summ_row['gy_product_price'] * $ref_summ_row['gy_product_quantity'];
     }
 
+    //total expenses
+    $totalExpenses = getTotalExpenses($date_now, $date_now, $user_id);
+
 ?>
 
 <!DOCTYPE html>
@@ -140,7 +143,7 @@
                             <table class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th colspan="2" style="font-weight: bold; color: green;"><center>RETAIL SALES</center></th>
+                                        <th colspan="2" style="font-weight: bold; color: green;"><center>GROSS SALES</center></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -180,8 +183,39 @@
                                             </tr>
                                     <?php } ?>
                                         <tr>
-                                            <td style="font-weight: bold; color: green;"><center>TOTAL RETAIL SALES</center></td>
+                                            <td style="font-weight: bold; color: green;"><center>TOTAL GROSS SALES</center></td>
                                             <td style="font-weight: bold; color: green; "><center><?php echo @number_format(0+$grand_total,2); ?></center></td>
+                                        </tr>
+                                    </tbody>
+                            </table>                                     
+                        </div>
+
+                        <div class="col-md-4">
+                            <table class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th colspan="3" style="font-weight: bold; color: red;"><center>Expenses</center></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php  
+                                        //get salesman
+                                        $totalExpenses=0;
+                                        $getExpenses=selectExpenses($date_now, $date_now, $user_id);
+                                        $countExpenses=$getExpenses->num_rows;
+                                        while ($exp=$getExpenses->fetch_array()) {
+                                            $totalExpenses += $exp['gy_exp_amount'];
+                                    ?>
+                                        <tr>
+                                            <td style="font-weight: bold; color: red;"><center><?php echo $exp['gy_exp_date']; ?></center></td>
+                                            <td style="font-weight: bold; color: red;"><center><?php echo @number_format(0 + $exp['gy_exp_amount'],2); ?></center></td>
+                                            <td style="font-weight: bold; color: red;"><center><?php echo $exp['gy_exp_note']; ?></center></td>
+                                        </tr>
+                                    <?php } ?>
+                                        <tr>
+                                            <td style="font-weight: bold; color: red;"><center>TOTAL EXPENSES</center></td>
+                                            <td style="font-weight: bold; color: red; "><center><?php echo @number_format(0+$totalExpenses,2); ?></center></td>
+                                            <td style="font-weight: bold; color: red;">&nbsp;</td>
                                         </tr>
                                     </tbody>
                             </table>                                     
@@ -200,16 +234,20 @@
                                         <td style="font-weight: bold; color: blue;"><center><?php echo 0+$total_trans_num; ?></center></td>
                                     </tr>
                                     <tr>
-                                        <td style="font-weight: bold; color: green;"><center>TOTAL RETAIL SALES</center></td>
+                                        <td style="font-weight: bold; color: green;"><center>TOTAL GROSS SALES</center></td>
                                         <td style="font-weight: bold; color: green; "><center><?php echo @number_format(0 + $grand_total,2); ?></center></td>
                                     </tr>
+                                    <tr>
+                                        <td style="font-weight: bold; color: red;"><center>EXPENSES</center></td>
+                                        <td style="font-weight: bold; color: red;"><center><?php echo @number_format(0 + $totalExpenses,2); ?></center></td>
+                                    </tr> 
                                     <tr>
                                         <td style="font-weight: bold; color: red;"><center>REPLACE/REFUND</center></td>
                                         <td style="font-weight: bold; color: red;"><center><?php echo @number_format(0 + $total_ref_rep,2); ?></center></td>
                                     </tr>   
                                     <tr>
                                         <td style="font-weight: bold; color: blue;"><center>NET SALES</center></td>
-                                        <td style="font-weight: bold; color: blue;"><center><?php echo @number_format(0 + $grand_total  - $total_ref_rep,2); ?></center></td>
+                                        <td style="font-weight: bold; color: blue;"><center><?php echo @number_format((0 + $grand_total) - ($totalExpenses + $total_ref_rep),2); ?></center></td>
                                     </tr>
                                 </tbody>
                             </table>

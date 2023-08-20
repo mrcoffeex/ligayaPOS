@@ -9,6 +9,14 @@
 
     <script>
 
+    function btnLoader(formObj){
+
+        formObj.disabled = true;
+        formObj.innerHTML = "processing ...";
+        return true;  
+
+    }
+
     $(document).ready(function() {
         $('#dataTables-example').DataTable({
                 responsive: true

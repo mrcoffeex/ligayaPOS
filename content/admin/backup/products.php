@@ -5,26 +5,46 @@
     include("../../conf/my_project.php");
 
 
-    $my_project_header_title = "Product Image";
+    $my_project_header_title = "Product Inventory";
 
     $my_notification = @$_GET['note'];
 
-    if ($my_notification == "updated") {
+    if ($my_notification == "nice_update") {
         $the_note_status = "visible";
         $color_note = "success";
-        $message = "Changes saved";
-    }else if ($my_notification == "invalid") {
-        $the_note_status = "visible";
-        $color_note = "danger";
-        $message = "Invalid input";
-    }else if ($my_notification == "empty") {
-        $the_note_status = "visible";
-        $color_note = "danger";
-        $message = "no image found";
+        $message = "Product is Updated";
     }else if ($my_notification == "error") {
         $the_note_status = "visible";
         $color_note = "danger";
         $message = "Theres something wrong here";
+    }else if ($my_notification == "only_space") {
+        $the_note_status = "visible";
+        $color_note = "danger";
+        $message = "White spaces is not allowed.";
+    }else if ($my_notification == "only_zero") {
+        $the_note_status = "visible";
+        $color_note = "danger";
+        $message = "Only zero (0) is not allowed";
+    }else if ($my_notification == "restock") {
+        $the_note_status = "visible";
+        $color_note = "success";
+        $message = "Restock Successful";
+    }else if ($my_notification == "converted") {
+        $the_note_status = "visible";
+        $color_note = "success";
+        $message = "Item Converted Successfully";
+    }else if ($my_notification == "pullout") {
+        $the_note_status = "visible";
+        $color_note = "success";
+        $message = "Pull-Out Successful";
+    }else if ($my_notification == "pin_out") {
+        $the_note_status = "visible";
+        $color_note = "warning";
+        $message = "Incorrect PIN";
+    }else if ($my_notification == "delete") {
+        $the_note_status = "visible";
+        $color_note = "success";
+        $message = "Product Deleted";
     }else{
         $the_note_status = "hidden";
         $color_note = "default";
@@ -37,7 +57,7 @@
 
     $query_three = "Select * from `gy_products` Order By `gy_product_name` ASC ";
 
-    $my_num_rows = 18;
+    $my_num_rows = 24;
 
     include 'my_pagination.php';
 
@@ -61,7 +81,7 @@
 
             <div class="row">
                 <div class="col-lg-8">
-                    <h3 class="page-header"><i class="fa fa-image"></i> <?php echo $my_project_header_title; ?></h3>
+                    <h3 class="page-header"><i class="fa fa-dropbox"></i> <?php echo $my_project_header_title; ?></h3>
                 </div>
                 <div class="col-lg-4">
                     <!-- notification here -->
@@ -93,12 +113,13 @@
                         <div class="col-md-6">  
                             <!-- Search Engine -->
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Search for Product Bar Code/Product Name/Category/Supplier Name/Update Code ..." name="image_search" style="border-radius: 0px;" autofocus>
+                                <input type="text" class="form-control" placeholder="Search for Product Bar Code/Product Name/Category/Supplier Name/Update Code ..." name="product_search" style="border-radius: 0px;" autofocus>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <!-- Buttons -->
-                            <button type="submit" name="searchAlbum" class="btn btn-success"><i class="fa fa-search fa-fw"></i> Search</button>  
+                            <button type="submit" id="submit" class="btn btn-success"><i class="fa fa-search fa-fw"></i> Search</button>
+                            <a href="add_product"><button type="button" class="btn btn-primary"><i class="fa fa-plus fa-fw"></i> Add New Product</button></a>   
                         </div>
                         </form> 
                         <hr>
@@ -135,11 +156,20 @@
                                             <div class="col-md-12">
                                                 <?= stringLimit($product_row['gy_product_name'], 27) ?>
                                             </div>
+                                            <div class="col-md-12 text-bold">
+                                                Php <?= number_format($product_row['gy_product_price_srp'], 2) ?>
+                                                <span class="pull-right"><?= $product_row['gy_product_quantity'] . " " . $product_row['gy_product_unit'] ?></span>
+                                            </div>
                                             <div class="col-md-6" style="padding-left: 1px; padding-right: 1px; margin-top: 5px;">
                                                 <button type="button" class="btn btn-warning btn-block" title="click to see product details" data-target="#details_<?php echo $product_row['gy_product_id']; ?>" data-toggle="modal" style="border-radius: 0px;"><i class="fa fa-list fa-fw"></i></button>
                                             </div>
                                             <div class="col-md-6" style="padding-left: 1px; padding-right: 1px; margin-top: 5px;">
-                                                <button type="button" class="btn btn-success btn-block" title="click to edit product details" data-toggle="modal" data-target="#upload_<?php echo $product_row['gy_product_id']; ?>" style="border-radius: 0px;"><i class="fa fa-upload fa-fw"></i></button>
+                                                <a href="edit_product?cd=<?php echo $product_row['gy_product_id']; ?>&pn=<?= $pagenum; ?>&s_type=normal">
+                                                    <button type="button" class="btn btn-info btn-block" title="click to edit product details" style="border-radius: 0px;"><i class="fa fa-edit fa-fw"></i></button>
+                                                </a>
+                                            </div>
+                                            <div class="col-md-12" style="padding-left: 1px; padding-right: 1px; margin-top: 5px;">
+                                                <button type="button" class="btn btn-danger btn-block" title="click to delete product" data-target="#delete_<?php echo $product_row['gy_product_id']; ?>" data-toggle="modal"><i class="fa fa-trash-o fa-fw"></i> Delete</button>
                                             </div>
                                         </div>
                                     </div>
@@ -210,28 +240,27 @@
                                 </div>
                             </div>
 
-                            <div class="modal fade" id="upload_<?php echo $product_row['gy_product_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <!-- Delete -->
+
+                            <div class="modal fade" id="delete_<?php echo $product_row['gy_product_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-sm">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                            <h4 class="modal-title" id="myModalLabel"><i class="fa fa-upload fa-fw"></i> Upload Image</h4>
+                                            <h4 class="modal-title" id="myModalLabel"><i class="fa fa-trash-o fa-fw"></i> Delete Product</h4>
                                         </div>
-                                        <form method="post" enctype="multipart/form-data" action="updateProductImage?productId=<?= $product_row['gy_product_id'] ?>&pn=<?= $pagenum ?>&s_type=normal&search_text=" onsubmit="btnLoader(this.uploadImage)">
-                                            <div class="modal-body">
+                                        <div class="modal-body">
+                                            <form method="post" enctype="multipart/form-data" action="delete_product?cd=<?php echo $product_row['gy_product_id']; ?>">
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="form-group">
-                                                            <label for=""><?= $product_row['gy_product_name'] ?> Image</label>
-                                                            <input type="file" class="form-control" name="productImage" id="productImage" required>
+                                                            <label><i class="fa fa-lock fa-fw"></i> Delete Secure PIN</label>
+                                                            <input type="password" name="my_secure_pin" class="form-control" autofocus required>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="submit" name="uploadImage" id="uploadImage" class="btn btn-success btn-block">Upload</button>
-                                            </div>
-                                        </form>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

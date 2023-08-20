@@ -16,6 +16,9 @@
 
         @$total_ref_rep += $ref_summ_row['gy_product_price'] * $ref_summ_row['gy_product_quantity'];
     }
+
+    //total expenses
+    $totalExpenses = getTotalExpenses($date_now, $date_now, $user_id);
 ?>
 
 <!DOCTYPE html>
@@ -113,7 +116,7 @@
                             $count_results=$query_one->num_rows;
 
                     ?>
-                    <table class="qwe" cellpadding="0" cellspacing="0" border="0" class="table" id="example" style="width: 30%; float: left; margin-left: 10px; margin-bottom: 0px;">
+                    <table class="qwe" cellpadding="0" cellspacing="0" border="0" class="table" id="example" style="width: 30%; float: left; margin-left: 10px; margin-bottom: 15px;">
                         <thead class=""> 
                             <tr class="nmgs">                    
                                 <th style="font-size: 18px;" colspan="3"><center><b><?php echo $salesmandatarow['gy_full_name']; ?></b> Sales</center></th>          
@@ -167,10 +170,10 @@
 
                     <?php } ?>
 
-                    <table class="qwe" cellpadding="0" cellspacing="0" border="0" class="table" id="example" style="width: 30%; float: left; margin-left: 10px; margin-top: 20px;">
+                    <table class="qwe" cellpadding="0" cellspacing="0" border="0" class="table" id="example" style="width: 30%; float: left; margin-left: 10px; margin-bottom: 15px;">
                         <thead class="">
                             <tr class="nmgs">
-                                <th colspan="2" style="font-size: 18px; color: green;"><center>RETAIL SALES</center></th>
+                                <th colspan="2" style="font-size: 18px; color: green;"><center>GROSS SALES</center></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -208,13 +211,42 @@
                                 </tr>
                             <?php } ?>
                                 <tr>
-                                    <td class="pla" style="color: green; font-size: 15px;"><center>TOTAL RETAIL SALES</center></td>
+                                    <td class="pla" style="color: green; font-size: 15px;"><center>TOTAL GROSS SALES</center></td>
                                     <td class="pla" style="color: green; font-size: 15px;"><center><?php echo @number_format(0+$grand_total,2); ?></center></td>
                                 </tr>
                         </tbody>
                     </table>
 
-                    <table class="qwe" cellpadding="0" cellspacing="0" border="0" class="table" id="example" style="width: 30%; float: left; margin-left: 10px; margin-top: 20px;">
+                    <table class="qwe" cellpadding="0" cellspacing="0" border="0" class="table" id="example" style="width: 30%; float: left; margin-left: 10px; margin-bottom: 15px;">
+                        <thead class="">
+                            <tr class="nmgs">
+                                <th colspan="3" style="font-size: 18px; color: red;"><center>EXPENSES</center></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php  
+                                //get salesman
+                                $totalExpenses=0;
+                                $getExpenses=selectExpenses($date_now, $date_now, $user_id);
+                                $countExpenses=$getExpenses->num_rows;
+                                while ($exp=$getExpenses->fetch_array()) {
+                                    $totalExpenses += $exp['gy_exp_amount'];
+                            ?>
+                            <tr>
+                                <td class="pla" style="color: red; font-size: 15px;"><center><?php echo $exp['gy_exp_date']; ?></center></td>
+                                <td class="pla" style="color: red; font-size: 15px;"><center><?php echo @number_format(0 + $exp['gy_exp_amount'],2); ?></center></td>
+                                <td class="pla" style="color: red; font-size: 15px;"><center><?php echo $exp['gy_exp_note']; ?></center></td>
+                            </tr>
+                            <?php } ?>
+                            <tr>
+                                <td class="pla" style="color: red; font-size: 15px;"><center>TOTAL EXPENSES</center></td>
+                                <td class="pla" style="color: red; font-size: 15px;"><center><?php echo @number_format(0+$totalExpenses,2); ?></center></td>
+                                <td class="pla" style="color: red; font-size: 15px;"><center>&nbsp;</center></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="qwe" cellpadding="0" cellspacing="0" border="0" class="table" id="example" style="width: 30%; float: left; margin-left: 10px; margin-bottom: 15px;">
                         <thead class="">
                             <tr class="nmgs">
                                 <th colspan="2" style="font-size: 18px;"><center>SUMMARY</center></th>
@@ -226,16 +258,20 @@
                                 <td class="pla" style="font-size: 15px; color: blue;"><center><?php echo 0+$total_trans_num; ?></center></td>
                             </tr>
                             <tr>
-                                <td class="pla" style="font-size: 15px; color: green;"><center>TOTAL RETAIL SALES</center></td>
+                                <td class="pla" style="font-size: 15px; color: green;"><center>TOTAL GROSS SALES</center></td>
                                 <td class="pla" style="font-size: 15px; color: green; "><center><?php echo @number_format(0 + $grand_total,2); ?></center></td>
                             </tr>
+                            <tr>
+                                <td class="pla" style="font-size: 15px; color: red;"><center>EXPENSES/center></td>
+                                <td class="pla" style="font-size: 15px; color: red;"><center><?php echo @number_format(0 + $totalExpenses,2); ?></center></td>
+                            </tr> 
                             <tr>
                                 <td class="pla" style="font-size: 15px; color: red;"><center>REPLACE/REFUND</center></td>
                                 <td class="pla" style="font-size: 15px; color: red;"><center><?php echo @number_format(0 + $total_ref_rep,2); ?></center></td>
                             </tr>  
                             <tr>
                                 <td class="pla" style="font-size: 15px; color: blue;"><center>NET SALES</center></td>
-                                <td class="pla" style="font-size: 15px; color: blue;"><center><?php echo @number_format(0 + $grand_total - $total_ref_rep,2); ?></center></td>
+                                <td class="pla" style="font-size: 15px; color: blue;"><center><?php echo @number_format((0 + $grand_total) - ($totalExpenses + $total_ref_rep),2); ?></center></td>
                             </tr>
                         </tbody>
                     </table>

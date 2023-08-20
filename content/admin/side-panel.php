@@ -7,6 +7,9 @@
             <li>
                 <a href="products"><i class="fa fa-dropbox fa-fw"></i> Product Inventory</a>
             </li>
+            <li>
+                <a href="album"><i class="fa fa-image fa-fw"></i> Product Image</a>
+            </li>
             <!-- <li>
                 <a href="suppliers"><i class="fa fa-briefcase fa-fw"></i> Supplier List</a>
             </li> -->
