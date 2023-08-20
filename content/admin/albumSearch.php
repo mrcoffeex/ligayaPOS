@@ -171,7 +171,7 @@
                                     <div class="panel-body">
                                         <div class="row text-<?= $my_limit ?>">
                                             <div class="col-md-12" style="padding-left: 0px; padding-right: 0px;">
-                                                <img src="<?= displayImage($product_row['gy_product_image'], '../../img/no_image.jpg', '../../mrcoffeexpicturebox/') ?>" class="img-responsive" style="max-height: 250px; width: 100%;" alt="">
+                                                <img src="<?= displayImage($product_row['gy_product_image'], '../../img/no_image.jpg', '../../mrcoffeexpicturebox/') ?>" class="img-responsive" style="max-height: 250px; min-height: 250px; width: 100%;" alt="">
                                             </div>
                                             <div class="col-md-12 text-bold" style="margin-top: 5px;">
                                                 <?= $product_row['gy_product_code'] ?>
