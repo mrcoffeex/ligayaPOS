@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 23, 2023 at 07:05 AM
+-- Generation Time: Jan 03, 2025 at 09:23 AM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 7.0.15
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `botique_data`
+-- Database: `ligaya_pos`
 --
 
 -- --------------------------------------------------------
@@ -104,14 +104,11 @@ CREATE TABLE `gy_category` (
 --
 
 INSERT INTO `gy_category` (`gy_cat_id`, `gy_cat_name`) VALUES
-(1, 'Dress'),
-(2, 'Pants'),
-(11, 'Shorts'),
-(13, 'Shirts'),
-(14, 'Gown'),
-(15, 'Casual'),
-(16, 'Beauty Products'),
-(17, 'Hygiene');
+(1, 'Mouse'),
+(14, 'Keyboard'),
+(18, 'intel'),
+(19, 'AMD'),
+(21, 'Mousepad');
 
 -- --------------------------------------------------------
 
@@ -146,6 +143,13 @@ CREATE TABLE `gy_expenses` (
   `gy_branch_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `gy_expenses`
+--
+
+INSERT INTO `gy_expenses` (`gy_exp_id`, `gy_exp_type`, `gy_exp_note`, `gy_exp_amount`, `gy_user_id`, `gy_approved_by`, `gy_exp_date`, `gy_branch_id`) VALUES
+(1, 'CASH', 'pamsahe', 100, 4, 1, '2023-08-20 17:27:04', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -179,7 +183,7 @@ CREATE TABLE `gy_my_project` (
 --
 
 INSERT INTO `gy_my_project` (`gy_project`, `gy_project_name`, `gy_project_address`, `gy_system_title`, `gy_year_origin`) VALUES
-(1, 'La Viktoria Trends', 'Digos City', '', '2023-06-13 11:27:07');
+(1, '2TECH Laptop Repair and PC Build - Digos City', 'Digos City', '', '2023-06-13 11:27:07');
 
 -- --------------------------------------------------------
 
@@ -222,7 +226,47 @@ INSERT INTO `gy_notification` (`gy_notif_id`, `gy_notif_text`, `gy_notif_date`) 
 (22, 'Cash Transaction ID 100001 is sold by Cashier 1', '2023-06-13 16:06:02'),
 (23, 'Master Developer -> approved Refund Notification from TransCode: 100001 - 2 -> 1 pcs of Casual Dress Green by Cashier 1', '2023-06-13 16:08:08'),
 (24, 'Logout Notification by Cashier 1', '2023-06-13 16:08:51'),
-(25, 'Login Notification by Cashier 1', '2023-06-23 12:35:58');
+(25, 'Login Notification by Cashier 1', '2023-06-23 12:35:58'),
+(26, 'sample dress red is added to products by Master Developer', '2023-08-20 02:05:00'),
+(27, 'sample dress red Product Update ->  by Master Developer', '2023-08-20 02:07:20'),
+(28, 'sample dress red Product Update -> Restock Limit: 5 -> 2 ,  by Master Developer', '2023-08-20 02:07:28'),
+(29, 'Login Notification by Cashier 1', '2023-08-20 03:17:20'),
+(30, 'Logout Notification by Cashier 1', '2023-08-20 03:17:30'),
+(31, 'Login Notification by Cashier 1', '2023-08-20 05:21:41'),
+(32, '100.00 is added to expenses by Cashier 1', '2023-08-20 17:27:04'),
+(33, 'Cash Transaction ID 100002 is sold by Cashier 1', '2023-08-20 17:35:29'),
+(34, 'Cash Transaction ID 100003 is sold by Cashier 1', '2023-08-20 17:35:47'),
+(35, 'Logout Notification by Cashier 1', '2023-08-20 17:45:35'),
+(36, 'Login Notification by Cashier 1', '2023-08-20 05:47:03'),
+(37, 'Login Notification by Cashier 1', '2023-08-21 03:51:14'),
+(38, '100.00 is added to expenses by Cashier 1', '2023-08-21 03:51:31'),
+(39, 'Logout Notification by Cashier 1', '2023-08-21 03:51:56'),
+(40, 'One Expense record has been removed by Master Developer', '2023-08-21 03:53:07'),
+(41, 'Login Notification by Cashier 1', '2023-08-21 04:41:02'),
+(42, 'Login Notification by Cashier 1', '2024-12-27 13:18:25'),
+(43, 'Logout Notification by Cashier 1', '2024-12-27 13:21:45'),
+(44, 'Login Notification by Cashier 1', '2025-01-02 17:44:06'),
+(45, 'Login Notification by Cashier 1', '2025-01-02 21:14:58'),
+(46, 'Logout Notification by Cashier 1', '2025-01-02 21:15:30'),
+(47, 'Login Notification by Cashier 1', '2025-01-02 21:25:15'),
+(48, 'Cash Transaction ID 100004 is sold by Cashier 1', '2025-01-02 22:03:40'),
+(49, 'Logout Notification by Cashier 1', '2025-01-02 22:17:53'),
+(50, ' is added to system users by Master Developer', '2025-01-03 15:33:25'),
+(51, 'Login Notification by Admin1', '2025-01-03 15:35:42'),
+(52, 'delete_product command -> is Updated by Admin1', '2025-01-03 16:08:42'),
+(53, 'Password PIN successfully removed by Admin1', '2025-01-03 16:10:04'),
+(54, 'Another Password PIN is created by Admin1', '2025-01-03 16:15:17'),
+(55, 'Password PIN successfully removed by Admin1', '2025-01-03 16:15:32'),
+(56, 'Logout Notification by Admin1', '2025-01-03 16:15:43'),
+(57, 'Login Notification by Cashier 1', '2025-01-03 16:15:47'),
+(58, 'Logout Notification by Cashier 1', '2025-01-03 16:15:52'),
+(59, 'Casual Dress Green Product Update -> Product Description: Casual Dress Green -> Attack Shark X3 , Product Details: green -> white , Product Capital Price: 500 -> 1000 , Product SRP: 900 -> 1790 , Quantity: -1 -> 20 , Discount Limit: 855 -> 1700.5 , Product Color: Green -> White ,  by Master Developer', '2025-01-03 16:18:29'),
+(60, 'Casual Night Dress Red Product Update -> Product Description: Casual Night Dress Red -> Red Dragon Keboard Mechanical , Product Category: Mouse -> Keyboard , Product Capital Price: 250 -> 1200 , Product SRP: 500 -> 1999 , Quantity: 0 -> 15 , Discount Limit: 490 -> 1899.05 ,  by Master Developer', '2025-01-03 16:19:28'),
+(61, 'Pink Long Gown Product Update -> Product Description: Pink Long Gown -> Razer Mousepad 400x400 , Product Category: Gown -> Mousepad , Product Details: pink long gown ->  , Product Capital Price: 700 -> 300 , Product SRP: 1350 -> 799 , Discount Limit: 1300 -> 759.05 , Product Color: Pink -> Green ,  by Master Developer', '2025-01-03 16:20:52'),
+(62, 'sample dress red Product Update -> Product Description: sample dress red -> AMD 3200g Processor  , Product Category: Mouse -> AMD , Product Details: sample dress red ->  , Product Capital Price: 200 -> 1999 , Product SRP: 460 -> 3100 , Quantity: 5 -> 10 , Discount Limit: 460 -> 2945 ,  by Master Developer', '2025-01-03 16:21:29'),
+(63, 'Login Notification by Cashier 1', '2025-01-03 16:21:43'),
+(64, 'Cash Transaction ID 100005 is sold by Cashier 1', '2025-01-03 16:22:00'),
+(65, 'Logout Notification by Cashier 1', '2025-01-03 16:22:50');
 
 -- --------------------------------------------------------
 
@@ -242,23 +286,24 @@ CREATE TABLE `gy_optimum_secure` (
 --
 
 INSERT INTO `gy_optimum_secure` (`gy_sec_id`, `gy_sec_value`, `gy_sec_type`, `gy_user_id`) VALUES
-(1, 'ZKfWomUWOD8ov+JiQEREoHSRFm07M53YZstM20QXuGo=', 'delete_product', 1),
-(2, 'ZKfWomUWOD8ov+JiQEREoHSRFm07M53YZstM20QXuGo=', 'add_discount', 1),
-(3, 'ZKfWomUWOD8ov+JiQEREoHSRFm07M53YZstM20QXuGo=', 'delete_sales', 1),
-(4, 'ZKfWomUWOD8ov+JiQEREoHSRFm07M53YZstM20QXuGo=', 'update_cash', 1),
-(5, 'ZKfWomUWOD8ov+JiQEREoHSRFm07M53YZstM20QXuGo=', 'delete_trans', 1),
-(8, 'ZKfWomUWOD8ov+JiQEREoHSRFm07M53YZstM20QXuGo=', 'remittance', 1),
-(9, 'ZKfWomUWOD8ov+JiQEREoHSRFm07M53YZstM20QXuGo=', 'cash_breakdown', 1),
-(10, 'ZKfWomUWOD8ov+JiQEREoHSRFm07M53YZstM20QXuGo=', 'void_remittance', 1),
-(11, 'ZKfWomUWOD8ov+JiQEREoHSRFm07M53YZstM20QXuGo=', 'custom_breakdown', 1),
-(12, 'ZKfWomUWOD8ov+JiQEREoHSRFm07M53YZstM20QXuGo=', 'expenses', 1),
-(13, 'ZKfWomUWOD8ov+JiQEREoHSRFm07M53YZstM20QXuGo=', 'ref_rep', 1),
-(14, 'ZKfWomUWOD8ov+JiQEREoHSRFm07M53YZstM20QXuGo=', 'print', 1),
-(15, 'ZKfWomUWOD8ov+JiQEREoHSRFm07M53YZstM20QXuGo=', 'restock_pullout_stock_transfer', 1),
-(16, 'ZKfWomUWOD8ov+JiQEREoHSRFm07M53YZstM20QXuGo=', 'users', 1),
-(17, 'ZKfWomUWOD8ov+JiQEREoHSRFm07M53YZstM20QXuGo=', 'delete_supplier', 1),
-(18, 'ZKfWomUWOD8ov+JiQEREoHSRFm07M53YZstM20QXuGo=', 'delete_pin', 1),
-(70, 'ZKfWomUWOD8ov+JiQEREoHSRFm07M53YZstM20QXuGo=', 'void_tra', 1);
+(1, 'ZKfWomUWOD8ov+JiQEREoHSRFm07M53YZstM20QXuGo=', 'delete_pin', 5),
+(2, 'ZKfWomUWOD8ov+JiQEREoHSRFm07M53YZstM20QXuGo=', 'delete_product', 5),
+(3, 'ZKfWomUWOD8ov+JiQEREoHSRFm07M53YZstM20QXuGo=', 'add_discount', 5),
+(4, 'ZKfWomUWOD8ov+JiQEREoHSRFm07M53YZstM20QXuGo=', 'delete_sales', 5),
+(5, 'ZKfWomUWOD8ov+JiQEREoHSRFm07M53YZstM20QXuGo=', 'update_cash', 5),
+(6, 'ZKfWomUWOD8ov+JiQEREoHSRFm07M53YZstM20QXuGo=', 'delete_trans', 5),
+(7, 'ZKfWomUWOD8ov+JiQEREoHSRFm07M53YZstM20QXuGo=', 'remittance', 5),
+(8, 'ZKfWomUWOD8ov+JiQEREoHSRFm07M53YZstM20QXuGo=', 'void_remittance', 5),
+(9, 'ZKfWomUWOD8ov+JiQEREoHSRFm07M53YZstM20QXuGo=', 'cash_breakdown', 5),
+(10, 'ZKfWomUWOD8ov+JiQEREoHSRFm07M53YZstM20QXuGo=', 'custom_breakdown', 5),
+(11, 'ZKfWomUWOD8ov+JiQEREoHSRFm07M53YZstM20QXuGo=', 'expenses', 5),
+(12, 'ZKfWomUWOD8ov+JiQEREoHSRFm07M53YZstM20QXuGo=', 'ref_rep', 5),
+(13, 'ZKfWomUWOD8ov+JiQEREoHSRFm07M53YZstM20QXuGo=', 'print', 5),
+(14, 'ZKfWomUWOD8ov+JiQEREoHSRFm07M53YZstM20QXuGo=', 'restock_pullout_stock_transfer', 5),
+(15, 'ZKfWomUWOD8ov+JiQEREoHSRFm07M53YZstM20QXuGo=', 'users', 5),
+(16, 'ZKfWomUWOD8ov+JiQEREoHSRFm07M53YZstM20QXuGo=', 'delete_supplier', 5),
+(18, 'ZKfWomUWOD8ov+JiQEREoHSRFm07M53YZstM20QXuGo=', 'void_ro', 5),
+(19, 'ZKfWomUWOD8ov+JiQEREoHSRFm07M53YZstM20QXuGo=', 'bodega', 5);
 
 -- --------------------------------------------------------
 
@@ -296,9 +341,10 @@ CREATE TABLE `gy_products` (
 --
 
 INSERT INTO `gy_products` (`gy_product_id`, `gy_product_code`, `gy_convert_item_code`, `gy_convert_value`, `gy_supplier_code`, `gy_product_name`, `gy_product_cat`, `gy_product_color`, `gy_product_image`, `gy_product_desc`, `gy_product_unit`, `gy_product_price_cap`, `gy_product_price_srp`, `gy_product_quantity`, `gy_product_discount_per`, `gy_product_restock_limit`, `gy_product_date_restock`, `gy_product_date_reg`, `gy_product_update_date`, `gy_added_by`, `gy_update_code`, `gy_branch_id`) VALUES
-(1, '243123123123', '', 0, '0', 'Casual Night Dress Red', 'Dress', 'Red', '20230613145131_52d6ea234037ab29e292b944d908396ffff8ff0d_clv6839_3.jpg', 'red', 'pcs', 250, 500, 0, 490, 0, '2023-06-13 14:07:28', '2023-06-13 14:07:28', '2023-06-13 15:10:04', 1, '10001', 1),
-(2, '7675645', '', 0, '0', 'Casual Dress Green', 'Dress', 'Green', '20230613145517__emerald_green_gown_with_slit_1669872259_f68c58b7.jpg', 'green', 'pcs', 500, 900, 3, 855, 0, '2023-06-13 16:04:18', '2023-06-13 14:55:17', '2023-06-13 14:55:17', 1, '10002', 1),
-(3, '4545-01', '', 0, '0', 'Pink Long Gown', 'Gown', 'Pink', '20230613160200_ASHLEIGH-PINK-SEQUIN-VELVET-2.jpg', 'pink long gown', 'pcs', 700, 1350, 1, 1300, 0, '2023-06-13 16:02:00', '2023-06-13 16:02:00', '2023-06-13 16:02:48', 1, '10003', 1);
+(1, '243123123123', '', 0, '0', 'Red Dragon Keboard Mechanical', 'Keyboard', 'Red', '20230613145131_52d6ea234037ab29e292b944d908396ffff8ff0d_clv6839_3.jpg', 'red', 'pcs', 1200, 1999, 15, 1899.05, 0, '2023-06-13 14:07:28', '2023-06-13 14:07:28', '2025-01-03 16:19:28', 1, '10001', 1),
+(2, '7675645', '', 0, '0', 'Attack Shark X3', 'Mouse', 'White', '20230613145517__emerald_green_gown_with_slit_1669872259_f68c58b7.jpg', 'white', 'pcs', 1000, 1790, 20, 1700.5, 0, '2023-06-13 16:04:18', '2023-06-13 14:55:17', '2025-01-03 16:18:29', 1, '10002', 1),
+(3, '4545-01', '', 0, '0', 'Razer Mousepad 400x400', 'Mousepad', 'Green', '20230613160200_ASHLEIGH-PINK-SEQUIN-VELVET-2.jpg', '', 'pcs', 300, 799, 0, 759.05, 0, '2023-06-13 16:02:00', '2023-06-13 16:02:00', '2025-01-03 16:20:52', 1, '10003', 1),
+(4, '34534564565', '', 0, '0', 'AMD 3200g Processor ', 'AMD', 'Red', '20230820234728_PSU-1.png', '', 'pcs', 1999, 3100, 8, 2945, 2, '2023-08-20 02:05:00', '2023-08-20 02:05:00', '2025-01-03 16:21:29', 1, '10004', 1);
 
 -- --------------------------------------------------------
 
@@ -529,7 +575,11 @@ CREATE TABLE `gy_transaction` (
 
 INSERT INTO `gy_transaction` (`gy_trans_id`, `gy_trans_code`, `gy_trans_pay`, `gy_trans_check_per`, `gy_trans_check_num`, `gy_trans_royal_fee`, `gy_trans_cardcent`, `gy_trans_custname`, `gy_trans_date`, `gy_trans_type`, `gy_trans_total`, `gy_trans_discount`, `gy_trans_cash`, `gy_trans_depositpay`, `gy_trans_change`, `gy_prepared_by`, `gy_user_id`, `gy_tra_code`, `gy_trans_status`, `gy_trans_check`, `gy_trans_check_date`, `gy_branch_id`) VALUES
 (1, '100001', 0, 0, '', 0, 0, 'vicky', '2023-06-13 16:06:02', 1, 1400, 0, 1500, 0, 100, 4, 4, '', 1, 0, '0000-00-00 00:00:00', 1),
-(2, '100002', 0, 0, '', 0, 0, '', '0000-00-00 00:00:00', 0, 0, 0, 0, 0, 0, 4, 0, '', 0, 0, '0000-00-00 00:00:00', 1);
+(2, '100002', 0, 0, '', 0, 0, 'maria', '2023-08-20 17:35:29', 1, 1800, 0, 2000, 0, 200, 4, 4, '', 1, 0, '0000-00-00 00:00:00', 1),
+(3, '100003', 0, 0, '', 0, 0, 'sample ', '2023-08-20 17:35:46', 1, 1350, 0, 1400, 0, 50, 4, 4, '', 1, 0, '0000-00-00 00:00:00', 1),
+(4, '100004', 0, 0, '', 0, 0, 'sample', '2025-01-02 22:03:39', 1, 1800, 0, 2000, 0, 200, 4, 4, '', 1, 0, '0000-00-00 00:00:00', 1),
+(5, '100005', 0, 0, '', 0, 0, 'sample', '2025-01-03 16:22:00', 1, 6200, 0, 7000, 0, 800, 4, 4, '', 1, 0, '0000-00-00 00:00:00', 1),
+(6, '100006', 0, 0, '', 0, 0, '', '0000-00-00 00:00:00', 0, 0, 0, 0, 0, 0, 4, 0, '', 0, 0, '0000-00-00 00:00:00', 1);
 
 -- --------------------------------------------------------
 
@@ -558,7 +608,11 @@ CREATE TABLE `gy_trans_details` (
 
 INSERT INTO `gy_trans_details` (`gy_transdet_id`, `gy_trans_code`, `gy_transdet_date`, `gy_product_id`, `gy_product_price`, `gy_product_origprice`, `gy_product_discount`, `gy_trans_quantity`, `gy_trans_ref_rep_quantity`, `gy_trans_claim_quantity`, `gy_transdet_type`, `gy_check_status`) VALUES
 (5, '100001', '2023-06-13 16:06:02', 2, 900, 900, 0, 1, 0, 1, 1, 0),
-(6, '100001', '2023-06-13 16:06:02', 1, 500, 500, 0, 1, 1, 1, 1, 0);
+(6, '100001', '2023-06-13 16:06:02', 1, 500, 500, 0, 1, 1, 1, 1, 0),
+(7, '100002', '2023-08-20 17:35:29', 2, 900, 900, 0, 2, 2, 2, 1, 0),
+(8, '100003', '2023-08-20 17:35:46', 3, 1350, 1350, 0, 1, 1, 1, 1, 0),
+(9, '100004', '2025-01-02 22:03:39', 2, 900, 900, 0, 2, 2, 2, 1, 0),
+(10, '100005', '2025-01-03 16:22:00', 4, 3100, 3100, 0, 2, 2, 2, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -601,7 +655,6 @@ INSERT INTO `gy_unit` (`gy_unit_id`, `gy_unit_name`) VALUES
 (2, 'kilo'),
 (3, 'mtr'),
 (10, 'pair'),
-(14, 'FEE'),
 (15, 'box'),
 (16, 'set'),
 (17, 'roll'),
@@ -631,7 +684,8 @@ CREATE TABLE `gy_user` (
 
 INSERT INTO `gy_user` (`gy_user_id`, `gy_user_code`, `gy_full_name`, `gy_username`, `gy_password`, `gy_user_type`, `gy_user_status`, `gy_branch_id`) VALUES
 (1, '0', 'Master Developer', 'dev', 'gozElr3tOF4jED67gzd4r2smH2NWy83w+P89isjSSgM=', 0, 0, 0),
-(4, '60899184', 'Cashier 1', 'cashier', 'dHK3s6lz86wwNIZnd8hitl/WeY1BA4uNN6PF1KOBUpc=', 2, 0, 1);
+(4, '60899184', 'Cashier 1', 'cashier', 'dHK3s6lz86wwNIZnd8hitl/WeY1BA4uNN6PF1KOBUpc=', 2, 0, 1),
+(5, '70844658', 'Admin1', 'admin1', 'gozElr3tOF4jED67gzd4r2smH2NWy83w+P89isjSSgM=', 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -873,7 +927,7 @@ ALTER TABLE `gy_breakdown`
 -- AUTO_INCREMENT for table `gy_category`
 --
 ALTER TABLE `gy_category`
-  MODIFY `gy_cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `gy_cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT for table `gy_deposit`
 --
@@ -883,7 +937,7 @@ ALTER TABLE `gy_deposit`
 -- AUTO_INCREMENT for table `gy_expenses`
 --
 ALTER TABLE `gy_expenses`
-  MODIFY `gy_exp_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `gy_exp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `gy_interest`
 --
@@ -898,17 +952,17 @@ ALTER TABLE `gy_my_project`
 -- AUTO_INCREMENT for table `gy_notification`
 --
 ALTER TABLE `gy_notification`
-  MODIFY `gy_notif_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `gy_notif_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 --
 -- AUTO_INCREMENT for table `gy_optimum_secure`
 --
 ALTER TABLE `gy_optimum_secure`
-  MODIFY `gy_sec_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `gy_sec_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 --
 -- AUTO_INCREMENT for table `gy_products`
 --
 ALTER TABLE `gy_products`
-  MODIFY `gy_product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `gy_product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `gy_pullout`
 --
@@ -953,12 +1007,12 @@ ALTER TABLE `gy_tra`
 -- AUTO_INCREMENT for table `gy_transaction`
 --
 ALTER TABLE `gy_transaction`
-  MODIFY `gy_trans_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `gy_trans_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `gy_trans_details`
 --
 ALTER TABLE `gy_trans_details`
-  MODIFY `gy_transdet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `gy_transdet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `gy_tra_details`
 --
@@ -968,12 +1022,12 @@ ALTER TABLE `gy_tra_details`
 -- AUTO_INCREMENT for table `gy_unit`
 --
 ALTER TABLE `gy_unit`
-  MODIFY `gy_unit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `gy_unit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 --
 -- AUTO_INCREMENT for table `gy_user`
 --
 ALTER TABLE `gy_user`
-  MODIFY `gy_user_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `gy_user_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `gy_void`
 --
