@@ -3,7 +3,7 @@
 	include 'conn.php';
 
 	//select in the database
-	$find_my_data=$link->query("Select * From `gy_my_project` Where `gy_project`='1'");
+	$find_my_data=$link->query("SELECT * From `gy_my_project` Where `gy_project`='1'");
 	$my_project_detail=$find_my_data->fetch_array();
 
 	$my_project_name = $my_project_detail['gy_project_name'];

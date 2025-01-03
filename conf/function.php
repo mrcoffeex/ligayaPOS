@@ -21,6 +21,18 @@
 		return $not_fake;
 	} 
 
+    function RealNumber($value, $decimal){
+
+        if ($value == 0) {
+            $res = 0;
+        } else {
+
+            $res = number_format($value, $decimal);
+        }
+        
+        return $res;
+    }
+
     function stringLimit($name, $limit){
 
         if (strlen($name) > $limit){
@@ -32,26 +44,38 @@
         return $name;
     }
 
-    function proper_date($datetime){
+    function proper_date($date){
 
-        if ($datetime == "") {
-            $res = "";
-        }else{
-            $res = date("Md Y", strtotime($datetime));
-        }
+        $newdate = date("M d Y", strtotime($date));
 
-        return $res;
-
+        return $newdate;
     }
 
-    function proper_time($datetime){
+    function properDateWithDay($date){
 
-        if ($datetime == "") {
-            $res = "";
-        }else{
-            $res = date("g:i A", strtotime($datetime));
+        $newdate = date("M d Y (l)", strtotime($date));
+
+        return $newdate;
+    }
+
+    function proper_time($time){
+        
+        $newtime = date("g:i A", strtotime($time));
+
+        return $newtime;
+    }
+
+    function todayOrBefore($date){
+
+        $dateToday = date("Y-m-d");
+        $dateDay = date("Y-m-d", strtotime($date));
+
+        if ($dateDay == $dateToday) {
+            $res = date("g:i A", strtotime($date));
+        } else {
+            $res = date("Md Y g:i A", strtotime($date));
         }
-
+        
         return $res;
 
     }
@@ -279,6 +303,68 @@
         return $alpha;
     }
 
+    function paymentMethod($var){
+
+        if ($var == 0) {
+            $res = "CASH";
+        } else if ($var == 1) {
+            $res = "CHEQUE";
+        } else if ($var == 2) {
+            $res = "CARD";
+        } else if ($var == 3) {
+            $res = "DEPOSIT";
+        } else {
+            $res = "-";
+        }
+        
+        return $res;
+
+    }
+
+    function getUserRole($userType){
+
+        if ($userType == "0") {
+            $res = "Administrator";
+        }else if ($userType == "1") {
+            $res = "Salesman";
+        }else if ($userType == "2") {
+            $res = "Cashier";
+        }else if ($userType == "3") {
+            $res = "Moderator";
+        }else if ($userType == "4") {
+            $res = "Bodega Staff";
+        }else if ($userType == "5") {
+            $res = "Customer Service";
+        }else{
+            $res = "unknown";
+        }
+
+        return $res;
+
+    }
+
+    function getChange($paymentMethod, $change, $royalFee){
+
+        if ($paymentMethod == 1) {
+            $res = $change - $royalFee;
+        } else {
+            $res = $change;
+        }
+        
+        return $res;
+    }
+
+    function none_if_empty($value){
+
+        if ($value == "") {
+            $res = "...";
+        } else {
+            $res = $value;
+        }
+        
+        return $res;
+    }
+
     function latest_code($ltable, $lcolumn, $lfirstcount){
 
         include("conn.php");
@@ -313,6 +399,112 @@
         return $result;
     }
 
+    // password pins
+
+    function getPinType($type){
+
+        if ($type == 'delete_pin') {
+
+            $res = "Delete PIN";
+
+        }else if ($type == 'delete_product') {
+
+            $res = "Delete Product/Item";
+
+        }else if ($type == 'add_discount') {
+
+            $res = "Add Discount ";
+            
+        }else if ($type == 'delete_sales') {
+
+            $res = "Void Sale/Transaction";
+            
+        }else if ($type == 'update_cash') {
+
+            $res = "Update Beginning Balance";
+            
+        }else if ($type == 'delete_trans') {
+
+            $res = "Void Order List";
+            
+        }else if ($type == 'remittance') {
+
+            $res = "Add Remittance";
+            
+        }else if ($type == 'cash_breakdown') {
+
+            $res = "Cash Breakdown";
+            
+        }else if ($type == 'void_remittance') {
+
+            $res = "Void Remittance";
+            
+        }else if ($type == 'custom_breakdown') {
+
+            $res = "Custom Breakdown";
+            
+        }else if ($type == 'expenses') {
+
+            $res = "All Expenses Permission";
+            
+        }else if ($type == 'ref_rep') {
+
+            $res = "Refund/Replace";
+            
+        }else if ($type == 'print') {
+
+            $res = "Duplicate Thermal Print ";
+            
+        }else if ($type == 'restock_pullout_stock_transfer') {
+
+            $res = "Re-Stock/Pull-Out/Stock Transfer ";
+            
+        }else if ($type == 'users') {
+
+            $res = "System Users ";
+            
+        }else if ($type == 'delete_supplier') {
+
+            $res = "Delete Supplier ";
+            
+        }else if ($type == 'void_tra') {
+
+            $res = "TRA Void ";
+            
+        }else if ($type == 'void_ro') {
+
+            $res = "Request Order Void ";
+            
+        }else if ($type == 'bodega') {
+
+            $res = "Bodega Permissions";
+            
+        }else{
+            $res = "Unknown";
+            
+        }
+
+        return $res;
+
+    }
+
+    // project
+
+    function updateProject($appName, $appTitle){
+
+        include 'conn.php';
+
+        $stmt=$link->query("UPDATE gy_my_project SET
+                        gy_project_name = '$appName',
+                        gy_system_title = '$appTitle'");
+        if ($stmt) {
+            return 1;
+        } else {
+            return 0;
+        }
+
+    }
+
     // categories
 
     function selectCategories(){
@@ -324,14 +516,203 @@
                                 From 
                                 gy_category 
                                 Order By 
-                                gy_cat_id 
+                                gy_cat_name 
                                 ASC");
         
         return $statement;
 
     }
+    
+    function selectCategory($catId){
+
+        include 'conn.php';
+
+        $stmt=$link->query("SELECT 
+                            * 
+                            From 
+                            gy_category 
+                            Where
+                            gy_cat_id = '$catId'");
+        
+        return $stmt;
+
+    }
+
+    function countProductByCategory($catName){
+
+        include 'conn.php';
+
+        $statement=$link->query("SELECT 
+                                gy_product_id 
+                                From 
+                                gy_products
+                                Where
+                                gy_product_cat = '$catName'");
+        $count=$statement->num_rows;
+        
+        return $count;
+
+    }
+    
+    function createCategory($catName){
+
+        include 'conn.php';
+
+        $stmt=$link->query("INSERT INTO gy_category
+                            (
+                                gy_cat_name
+                            ) 
+                            Values
+                            (
+                                '$catName'
+                            )");
+
+        if ($stmt) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    function deleteCategory($catId){
+
+        include 'conn.php';
+
+        $stmt=$link->query("DELETE FROM gy_category
+                            Where
+                            gy_cat_id = '$catId'");
+        if ($stmt) {
+            return 1;
+        } else {
+            return 0;
+        }
+        
+    }
+    
+    function updateCategoryName($catId, $inputName){
+
+        include 'conn.php';
+
+        $stmt=$link->query("UPDATE gy_category SET
+                            gy_cat_name = '$inputName'
+                            Where
+                            gy_cat_id = '$catId'");
+        if ($stmt) {
+            return 1;
+        } else {
+            return 0;
+        }
+
+    }
+
+    function updateProductsCategory($productCategory, $newCategory){
+
+        include 'conn.php';
+
+        $stmt=$link->query("UPDATE gy_products SET
+                            gy_product_cat = '$newCategory'
+                            Where
+                            gy_product_cat = '$productCategory'");
+        if ($stmt) {
+            return 1;
+        } else {
+            return 0;
+        }
+
+    }
+    
+    function checkCategoryNameIFChanged($catId, $inputName){
+
+        include 'conn.php';
+
+        $stmt=$link->query("SELECT gy_cat_name 
+                            FROM 
+                            gy_category 
+                            WHERE 
+                            gy_cat_id = '$catId'");
+        $res=$stmt->fetch_array();
+
+        if ($res['gy_cat_name'] != $inputName) {
+            return 1;
+        } else {
+            return 0;
+        }
+
+    }
+
+    // units
+
+    function selectUnits(){
+
+        include 'conn.php';
+
+        $stmt=$link->query("SELECT * FROM gy_unit Order By gy_unit_name ASC");
+
+        return $stmt;
+
+    }
+
+    function createUnit($newUnit){
+
+        include 'conn.php';
+
+        $stmt=$link->query("INSERT INTO gy_unit
+                            (
+                                gy_unit_name
+                            )
+                            Values
+                            (
+                                '$newUnit'
+                            )");
+        if ($stmt) {
+            return 1;
+        } else {
+            return 0;
+        }
+
+    }
+
+    function deleteUnit($unitId){
+
+        include 'conn.php';
+
+        $stmt=$link->query("DELETE FROM gy_unit Where gy_unit_id = '$unitId'");
+
+        if ($stmt) {
+            return 1;
+        } else {
+            return 0;
+        }
+
+    }
+
+    // supplier
+
+    function selectSupplier($supplierCode){
+
+        include 'conn.php';
+
+        $statement=$link->query("SELECT * From gy_supplier
+                                Where
+                                gy_supplier_code = '$supplierCode'");
+
+        return $statement;
+
+    }
 
     // products
+
+    function selectProduct($productId){
+
+        include 'conn.php';
+
+        $statement=$link->query("SELECT * From gy_products
+                                Where
+                                gy_product_id = '$productId'");
+        return $statement;
+
+    }
 
     function countAlbum($limit){
 
@@ -519,7 +900,297 @@
 
     }
 
+    function getProductId($productCode){
+
+        include 'conn.php';
+
+        $statement=$link->query("SELECT
+                                gy_product_id
+                                FROM
+                                gy_products
+                                Where
+                                gy_product_code = '$productCode'");
+        $res=$statement->fetch_array();
+
+        return $res['gy_product_id'];
+
+    }
+
+    function getProductName($productId){
+
+        include 'conn.php';
+
+        $statement=$link->query("SELECT
+                                gy_product_name
+                                FROM
+                                gy_products
+                                Where
+                                gy_product_id = '$productId'");
+        $res=$statement->fetch_array();
+
+        return $res['gy_product_name'];
+
+    }
+
+    function getProductDesc($productId){
+
+        include 'conn.php';
+
+        $statement=$link->query("SELECT
+                                gy_product_desc
+                                FROM
+                                gy_products
+                                Where
+                                gy_product_id = '$productId'");
+        $res=$statement->fetch_array();
+
+        return $res['gy_product_desc'];
+
+    }
+
+    function getProductUnit($productId){
+
+        include 'conn.php';
+
+        $statement=$link->query("SELECT
+                                gy_product_unit
+                                FROM
+                                gy_products
+                                Where
+                                gy_product_id = '$productId'");
+        $res=$statement->fetch_array();
+
+        return $res['gy_product_unit'];
+
+    }
+
+    function getConvertProductNameById($productId){
+
+        include 'conn.php';
+
+        $statement=$link->query("SELECT gy_product_name From gy_products
+                                Where
+                                gy_product_id = '$productId'");
+        $res=$statement->fetch_array();
+
+        if (empty($res['gy_product_name'])) {
+            $result = "product_id";
+        } else {
+            $result = $res['gy_product_name'];
+        }
+        
+        return $result;
+
+    }
+
+    function getProductNameById($productId){
+
+        include 'conn.php';
+
+        $statement=$link->query("SELECT gy_product_name From gy_products
+                                Where
+                                gy_product_id = '$productId'");
+        $res=$statement->fetch_array();
+
+        return $res['gy_product_name'];
+
+    }
+
+    function getProductNameByCode($productcode){
+
+        include 'conn.php';
+
+        $statement=$link->query("SELECT gy_product_name From gy_products
+                                Where
+                                gy_product_code = '$productcode'");
+        $res=$statement->fetch_array();
+
+        return $res['gy_product_name'];
+
+    }
+
+    function getProductUnitByCode($productcode){
+
+        include 'conn.php';
+
+        $statement=$link->query("SELECT gy_product_unit From gy_products
+                                Where
+                                gy_product_code = '$productcode'");
+        $res=$statement->fetch_array();
+
+        return $res['gy_product_unit'];
+
+    }
+
+    function getProductCategoryByCode($productcode){
+
+        include 'conn.php';
+
+        $statement=$link->query("SELECT gy_product_cat From gy_products
+                                Where
+                                gy_product_code = '$productcode'");
+        $res=$statement->fetch_array();
+
+        return $res['gy_product_cat'];
+
+    }
+
+    function getProductSrpByCode($productcode){
+
+        include 'conn.php';
+
+        $statement=$link->query("SELECT gy_product_price_srp From gy_products
+                                Where
+                                gy_product_code = '$productcode'");
+        $res=$statement->fetch_array();
+
+        return $res['gy_product_price_srp'];
+
+    }
+
+    function getProductQtyByCode($productcode){
+
+        include 'conn.php';
+
+        $statement=$link->query("SELECT gy_product_quantity From gy_products
+                                Where
+                                gy_product_code = '$productcode'");
+        $res=$statement->fetch_array();
+
+        return $res['gy_product_quantity'];
+
+    }
+
+    function getProductLastPriceByCode($productcode){
+
+        include 'conn.php';
+
+        $statement=$link->query("SELECT gy_product_discount_per From gy_products
+                                Where
+                                gy_product_code = '$productcode'");
+        $res=$statement->fetch_array();
+
+        return $res['gy_product_discount_per'];
+
+    }
+
+    function getTransDetailsQtyByCode($productCode, $dateFrom, $dateTo){
+
+        include 'conn.php';
+
+        $statement=$link->query("SELECT SUM(gy_trans_quantity) as transdet_qty 
+                                From gy_trans_details
+                                Where
+                                gy_product_code = '$productCode'
+                                AND
+                                date(gy_transdet_date)
+                                BETWEEN
+                                '$dateFrom' AND '$dateTo'");
+        $res=$statement->fetch_array();
+
+        if (empty($res['transdet_qty'])) {
+            return 0;
+        } else {
+            return $res['transdet_qty'];
+        }
+
+    }
+
+    function selectInventoryBreakdown($productid, $dateFrom, $dateTo){
+
+        include 'conn.php';
+
+        $stmt=$link->query("SELECT gy_trans_code as trans_code, gy_transdet_date as trans_date, gy_trans_quantity as trans_qty, 'SALES' as source_table FROM gy_trans_details Where gy_product_id = '$productid' AND (date(gy_transdet_date) BETWEEN '$dateFrom' AND '$dateTo')
+                            UNION
+                            SELECT gy_restock_code as trans_code, gy_restock_date as trans_date, gy_restock_quantity as trans_qty, 'RESTOCK' as source_table FROM gy_restock Where gy_product_id = '$productid' AND (date(gy_restock_date) BETWEEN '$dateFrom' AND '$dateTo')                            
+                            UNION
+                            SELECT gy_pullout_code as trans_code, gy_pullout_date as trans_date, gy_pullout_quantity as trans_qty, 'PULLOUT' as source_table FROM gy_pullout Where gy_product_id = '$productid' AND (date(gy_pullout_date) BETWEEN '$dateFrom' AND '$dateTo')                            
+                            UNION 
+                            SELECT gy_transfer_code as trans_code, gy_transfer_date as trans_date, gy_transfer_quantity as trans_qty, 'STOCK_TRANSFER' as source_table FROM gy_stock_transfer Where gy_product_id = '$productid' AND (date(gy_transfer_date) BETWEEN '$dateFrom' AND '$dateTo')
+                            Order By trans_date ASC
+                            ");
+        return $stmt;
+
+    }
+
+    function getInventoryArrowType($type){
+
+        switch ($type) {
+            case 'RESTOCK':
+                return '<span class="text-success"><i style="font-size: 7px;" class="fa fa-chevron-up"></i></span>';
+                break;
+            default:
+                return '<span class="text-danger"><i style="font-size: 7px;" class="fa fa-chevron-down"></i></span>';
+                break;
+        }
+
+    }
+
+    // users
+
+    function getUserFullnameById($userid){
+
+        include 'conn.php';
+
+        $statement=$link->query("SELECT gy_full_name From gy_user 
+                                Where 
+                                gy_user_id='$userid'");
+        $res=$statement->fetch_array();
+
+        return $res['gy_full_name'];
+
+    }
+    
+    function getUserType($userId){
+
+        include 'conn.php';
+
+        $statement=$link->query("SELECT gy_user_type 
+                                FROM
+                                gy_user
+                                Where 
+                                gy_user_id='$userId'");
+        
+        $res=$statement->fetch_array();
+
+        return $res['gy_user_type'];
+    }
+
     // transactions
+
+    function selectTransaction($transcode){
+
+        include 'conn.php';
+
+        $statement=$link->query("SELECT * From gy_transaction
+                                Where
+                                gy_trans_code = '$transcode'");
+        return $statement;
+
+    }
+
+    function getSalesDetails($transcode){
+
+        include 'conn.php';
+
+        $statement=$link->query("SELECT 
+                                gy_transdet_id,
+                                gy_trans_code,
+                                gy_transdet_date,
+                                gy_product_price,
+                                gy_product_id,
+                                gy_trans_quantity,
+                                gy_trans_ref_rep_quantity
+                                From 
+                                gy_trans_details 
+                                Where 
+                                gy_trans_code = '$transcode' 
+                                Order By 
+                                gy_product_price 
+                                DESC");
+        return $statement;
+
+    }
 
     function selectItemsSold($date1, $date2){
 

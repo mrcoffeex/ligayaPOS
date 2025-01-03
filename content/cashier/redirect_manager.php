@@ -32,15 +32,14 @@ include("../../conf/my_project.php");
         }
     }
 
-    //search sales report
+    //search refund/replace
     if (isset($_POST['submit_sales_report_sales'])) {
         $search_value = words($_POST['search_value']);
-        $search_return_date = words($_POST['search_return_date']);
 
         if ($search_value == "" && $search_return_date == "") {
             header("location: sales?note=empty_search");
         }else{
-            header("location: search_sales?search_text=$search_value&returndate=$search_return_date");
+            header("location: search_sales?search_text=$search_value");
         }
     }
 

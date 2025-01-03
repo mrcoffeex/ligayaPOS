@@ -43,11 +43,11 @@
         $message = "";
     }
 
-    $query_one = "Select * From `gy_user` Where `gy_user_type`!='0' AND `gy_user_status`='0' Order By `gy_user_id` ASC";
+    $query_one = "SELECT * From gy_user Where gy_user_id != 1 AND gy_user_status = 0 AND gy_user_id != '$user_id' Order By gy_user_id ASC";
 
-    $query_two = "Select COUNT(`gy_user_id`) FROM `gy_user` Where `gy_user_type`!='0' AND `gy_user_status`='0' Order By `gy_user_id` ASC";
+    $query_two = "SELECT COUNT(gy_user_id) FROM gy_user Where gy_user_id != 1 AND gy_user_status = 0 AND gy_user_id != '$user_id' Order By gy_user_id ASC";
 
-    $query_three = "Select * from `gy_user` Where `gy_user_type`!='0' AND `gy_user_status`='0' Order By `gy_user_id` ASC ";
+    $query_three = "SELECT * from gy_user Where gy_user_id != 1 AND gy_user_status = 0 AND gy_user_id != '$user_id' Order By gy_user_id ASC ";
 
     $my_num_rows = 20;
 
@@ -119,10 +119,10 @@
                                                 <div class="form-group">
                                                     <label>Branch</label>
                                                     <select name="my_branch" id="my_branch" class="form-control" required>
-                                                        <option value="0">All Access</option>
+                                                        <!-- <option value="0">All Access</option> -->
                                                         <?php  
                                                             //get branch
-                                                            $getbranch=$link->query("SELECT * From `gy_branch` Order By `gy_branch_id` ASC");
+                                                            $getbranch=$link->query("SELECT * From gy_branch Order By gy_branch_id ASC");
                                                             while ($branches=$getbranch->fetch_array()) {
                                                         ?>
                                                         <option value="<?= $branches['gy_branch_id']; ?>"><?= $branches['gy_branch_name']; ?></option>
@@ -132,14 +132,11 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label>Role <span style="color: red; font-style: italic;">(*inventory is all access)</span></label>
+                                                    <label>Role</label>
                                                     <select name="my_role" id="my_role" class="form-control" required>
                                                         <option></option>
                                                         <option value="0">Administrator</option>
-                                                        <option value="1">Inventory</option>
                                                         <option value="2">Cashier</option>
-                                                        <option value="3">Moderator</option>
-                                                        <option value="4">Preview</option>
                                                     </select>
                                                 </div>
                                             </div>

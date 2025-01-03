@@ -128,6 +128,7 @@
                                             <option>Violet/Purple</option>
                                             <option>Black</option>
                                             <option>White</option>
+                                            <option>Other</option>
                                         </select>
                                     </div>
                                 </div>

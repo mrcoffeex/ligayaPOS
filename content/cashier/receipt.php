@@ -60,13 +60,13 @@
 
             <div class="row">
                 <div class="col-lg-8">
-                    <h3 class="page-header"><i class="fa fa-file-text-o"></i> <?php echo $my_project_header_title; ?></h3>
+                    <h3 class="page-header"><i class="fa fa-file-text-o"></i> <?= $my_project_header_title; ?></h3>
                 </div>
                 <div class="col-lg-4">
                     <!-- notification here -->
-                    <div class="alert alert-<?php echo @$color_note; ?> alert-dismissable" id="my_note" style="margin-top: 12px; visibility: <?php echo @$the_note_status; ?>">
+                    <div class="alert alert-<?= @$color_note; ?> alert-dismissable" id="my_note" style="margin-top: 12px; visibility: <?= @$the_note_status; ?>">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <?php echo @$message; ?>.
+                        <?= @$message; ?>.
                     </div>
                 </div>
             </div>
@@ -101,133 +101,38 @@
                                     </thead>
                                     <tbody>
 
-                                    <?php  
-                                        //get products
-                                        //make pagination
+                                    <?php
                                         while ($sales_row=$query->fetch_array()) {
                                     ?>
 
-                                        <tr class="<?php echo $my_limit; ?>">
-                                            <td style="font-weight: bold;"><center><?php echo $sales_row['gy_trans_code']; ?></center></td>
-                                            <td style="font-weight: bold;"><center><?php echo $sales_row['gy_trans_custname']; ?></center></td>
-                                            <td style="font-weight: bold;"><center><?php echo date("F d, Y g:i:s A",strtotime($sales_row['gy_trans_date'])); ?></center></td>
-                                            <td><center><button type="button" class="btn btn-info" title="click to see details ..." data-target="#details_<?php echo $sales_row['gy_trans_code']; ?>" data-toggle="modal"><i class="fa fa-list fa-fw"></i></button></center></td>
-                                            <td><center><button type="button" class="btn btn-danger" title="click to void transaction..." data-target="#delete_<?php echo $sales_row['gy_trans_code']; ?>" data-toggle="modal"><i class="fa fa-trash-o fa-fw"></i></button></center></td>
+                                        <tr class="<?= $my_limit; ?>">
+                                            <td style="font-weight: bold;"><center><?= $sales_row['gy_trans_code']; ?></center></td>
+                                            <td style="font-weight: bold;"><center><?= $sales_row['gy_trans_custname']; ?></center></td>
+                                            <td style="font-weight: bold;"><center><?= date("F d, Y g:i A",strtotime($sales_row['gy_trans_date'])); ?></center></td>
+                                            <td class="text-center">
+                                                <a 
+                                                    href="sales_details?transCode=<?= $sales_row['gy_trans_code'] ?>" 
+                                                    onclick="window.open(this.href, 'mywin', 'left=20, top=20, width=1366, height=768, toolbar=1, resizable=0'); return false;"
+                                                >
+                                                    <button type="button" class="btn btn-info" title="click to see details ..."><i class="fa fa-list fa-fw"></i></button>
+                                                </a>
+                                            </td>
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-danger" title="click to void transaction..." data-target="#delete_<?= $sales_row['gy_trans_code']; ?>" data-toggle="modal"><i class="fa fa-trash-o fa-fw"></i></button>
+                                            </td>
                                         </tr>
-
-                                        <!-- Transaction Details -->
-                                        
-                                        <div class="modal fade" id="details_<?php echo $sales_row['gy_trans_code']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                        <center><h4 class="modal-title" id="myModalLabel">Transaction <u><?php echo $sales_row['gy_trans_code']; ?></u> Info</h4></center>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <div class="panel-body">
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div class="panel panel-yellow" style="border-radius: 0px;">
-                                                                        <div class="panel-heading" style="border-radius: 0px;">
-                                                                            Transaction Info
-
-                                                                            <?php  
-                                                                                //get cashier info
-                                                                                $cashier_identifier=$sales_row['gy_user_id'];
-                                                                                $get_user_info=$link->query("Select * From `gy_user` Where `gy_user_id`='$cashier_identifier'");
-                                                                                $user_info_row=$get_user_info->fetch_array();
-
-
-                                                                                $sales_identifier=$sales_row['gy_prepared_by'];
-                                                                                $get_salesman=$link->query("Select * From `gy_user` Where `gy_user_id`='$sales_identifier'");
-                                                                                $salesman_info_row=$get_salesman->fetch_array();
-                                                                            ?>
-                                                                        </div>
-                                                                        <div class="panel-body">
-                                                                            <p>
-                                                                                ID: &nbsp;&nbsp;&nbsp;<u><?php echo $sales_row['gy_trans_code']; ?></u><br>
-                                                                                Customer: &nbsp;&nbsp;&nbsp;<u><?php echo $sales_row['gy_trans_custname']; ?></u><br>
-                                                                                Date: &nbsp;&nbsp;&nbsp;<u><?php echo date("F d, Y g:i:s A", strtotime($sales_row['gy_trans_date'])); ?></u><br>
-                                                                                Prepared By: &nbsp;&nbsp;&nbsp;<u><?php echo $salesman_info_row['gy_full_name']; ?></u><br>
-                                                                                Cashier: &nbsp;&nbsp;&nbsp;<u><?php echo $user_info_row['gy_full_name']; ?></u><br><br>
-
-                                                                                Items: &nbsp;&nbsp;&nbsp;<br/>
-
-                                                                                <?php  
-                                                                                    //get items
-                                                                                    //trans code
-                                                                                    $total = "";
-                                                                                    $my_tcode=$sales_row['gy_trans_code'];
-                                                                                    $get_items=$link->query("Select * From `gy_trans_details` LEFT JOIN `gy_products` On `gy_trans_details`.`gy_product_id`=`gy_products`.`gy_product_id` Where `gy_trans_details`.`gy_trans_code`='$my_tcode' Order By `gy_products`.`gy_product_price_srp` DESC");
-                                                                                    while ($item_row=$get_items->fetch_array()) {
-                                                                                        //remain zero if the discount is negative
-                                                                                        if ($item_row['gy_product_discount'] <= 0) {
-                                                                                            $my_discount_val = 0;
-                                                                                        }else{
-                                                                                            $my_discount_val = $item_row['gy_product_discount'];
-                                                                                        }
-
-                                                                                        $my_subtotal = $item_row['gy_product_price'] * $item_row['gy_trans_quantity'];
-
-                                                                                        @$total += $my_subtotal;
-
-                                                                                        echo "
-                                                                                            {$item_row['gy_product_code']} &nbsp;&nbsp;&nbsp; ".substr($item_row['gy_product_name'], 0, 35)." (".number_format($item_row['gy_product_price'],2)."(<i>-".$my_discount_val."</i>) x ".$item_row['gy_trans_quantity'].") &nbsp;&nbsp;&nbsp; <span style='float: right;'><b>".number_format($my_subtotal,2)."</span></b><br/>
-                                                                                        ";
-                                                                                    }
-                                                                                ?>
-                                                                                <br/>
-                                                                                <span style='float: right;'>Total: &nbsp;&nbsp;&nbsp;<u>Php <b><?php echo number_format($total,2); ?></b></u></span><br/>
-                                                                                <span style='float: right;'>Cash: &nbsp;&nbsp;&nbsp;<u>Php <b><?php echo number_format($sales_row['gy_trans_cash'],2); ?></b></u></span><br/>
-                                                                                <span style='float: right; color: green; font-size: 25px;'>Change: &nbsp;&nbsp;&nbsp;<u>Php <b><?php echo number_format($sales_row['gy_trans_change'],2); ?></b></u></span><br/><br/>
-                                                                            </p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- ADMIN PIN -->
-
-                                        <div class="modal fade" id="print_<?php echo $sales_row['gy_trans_code']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-money fa-fw"></i> Print Receipt Permission <small style="color: #337ab7;">(press TAB to type/press ENTER to process)</small></h4>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <form method="post" enctype="multipart/form-data" action="print_receipt_thermal_rec?cd=<?php echo $sales_row['gy_trans_code']; ?>">
-
-                                                            <div class="row">
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group">
-                                                                        <label style="color: blue;"><i class="fa fa-lock fa-fw"></i> ADMIN PIN</label>
-                                                                        <input type="password" class="form-control" name="my_secure_pin" placeholder="number here ..." autofocus required>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
 
                                         <!-- Delete -->
 
-                                        <div class="modal fade" id="delete_<?php echo $sales_row['gy_trans_code']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal fade" id="delete_<?= $sales_row['gy_trans_code']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
-                                                        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-trash-o fa-fw"></i> Void Transaction Code - <?php echo $sales_row['gy_trans_code']; ?></h4>
+                                                        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-trash-o fa-fw"></i> Void Transaction Code - <?= $sales_row['gy_trans_code']; ?></h4>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <form method="post" enctype="multipart/form-data" action="delete_sales?cd=<?php echo $sales_row['gy_trans_code']; ?>">
+                                                        <form method="post" enctype="multipart/form-data" action="delete_sales?cd=<?= $sales_row['gy_trans_code']; ?>">
                                                             <div class="row">
                                                                 <div class="col-md-6">
                                                                     <div class="form-group">
@@ -255,7 +160,7 @@
                 <div class="col-md-12">
                     <div class="text-center"> 
                          <ul class="pagination">
-                            <?php echo $paginationCtrls; ?>
+                            <?= $paginationCtrls; ?>
                          </ul>
                     </div>
                  </div>

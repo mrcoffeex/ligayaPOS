@@ -66,13 +66,13 @@
 
             <div class="row">
                 <div class="col-lg-8">
-                    <h3 class="page-header"><i class="fa fa-undo"></i> <?php echo $my_project_header_title; ?></h3>
+                    <h3 class="page-header"><i class="fa fa-undo"></i> <?= $my_project_header_title; ?></h3>
                 </div>
                 <div class="col-lg-4">
                     <!-- notification here -->
-                    <div class="alert alert-<?php echo @$color_note; ?> alert-dismissable" id="my_note" style="margin-top: 12px; visibility: <?php echo @$the_note_status; ?>">
+                    <div class="alert alert-<?= @$color_note; ?> alert-dismissable" id="my_note" style="margin-top: 12px; visibility: <?= @$the_note_status; ?>">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <?php echo @$message; ?>.
+                        <?= @$message; ?>.
                     </div>
                 </div>
             </div>
@@ -82,20 +82,46 @@
                         <form method="post" enctype="multipart/form-data" action="redirect_manager">
                             <div class="col-md-5">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="search_value" style="border-radius: 0px;" placeholder="search customer name/transaction number" autofocus>
+                                    <label class="col-sm-12" style="padding: 0;">Search customer_name / transaction_code / yyyy-mm-dd number</label>
+                                    <input type="text" class="form-control" name="search_value" style="border-radius: 0px;" placeholder="customer_name / transaction_code / yyyy-mm-dd number" autofocus>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <input type="date" class="form-control" name="search_return_date" style="border-radius: 0px;">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
+                                    <label class="col-sm-12">&nbsp;</label>
                                     <button type="submit" name="submit_sales_report_sales" class="btn btn-info" title="click to search"><i class="fa fa-search"></i> Search</button>
                                 </div>
                             </div>
                         </form>                      
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Sales Data Table - <span class="text-bold">0 result(s)</span>
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th><center>Details</center></th>
+                                    <th><center>Date</center></th>
+                                    <th><center>TransCode</center></th>
+                                    <th><center>Customer</center></th>
+                                    <th><center>Qty</center></th>
+                                    <th><center>RQty</center></th>
+                                    <th><center>Description</center></th>
+                                    <th><center>Retail</center></th>
+                                    <th style="color: blue;"><center>Discount</center></th>
+                                    <th style="color: green;"><center>Total</center></th>
+                                    <th><center>Refund</center></th>
+                                    <th><center>Replace</center></th>
+                                </tr>
+                            </thead>
+                        </table>
                     </div>
                 </div>
             </div>

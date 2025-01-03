@@ -4,28 +4,28 @@
     include("../../conf/my_project.php");
     include("session.php");
 
-    $my_dir_value = @$_GET['cd'];
-    $custom_var = $my_dir_value;
+    $productCode = @$_GET['cd'];
 
-    $getitemdetails=$link->query("Select * From `gy_products` Where `gy_product_code`='$my_dir_value'");
-    $itemdetailsrow=$getitemdetails->fetch_array();
+    $itemname = getProductNameByCode($productCode);
+    $itemunit = getProductUnitByCode($productCode);
+    $productId = getProductId($productCode);
 
-    $itemname = $itemdetailsrow['gy_product_name'];
-    $itemunit = $itemdetailsrow['gy_product_unit'];
+    $my_project_header_title = $itemname." Inventory";
 
-    $my_project_header_title = $itemname." - Sold History";
+    if (isset($_POST['dateFrom'])) {
+        $dateFrom = words($_POST['dateFrom']);
+        $dateTo = words($_POST['dateTo']);
 
-    $query_one = "SELECT * From `gy_trans_details` Where `gy_product_code`='$my_dir_value' Order By `gy_transdet_date` DESC";
+        $getHistory=selectInventoryBreakdown($productId, $dateFrom, $dateTo);
+        
+    } else {
+        $dateFrom = date("Y-m-d", strtotime("-30 days"));
+        $dateTo = date("Y-m-d");
 
-    $query_two = "SELECT COUNT(`gy_transdet_id`) FROM `gy_trans_details` Where `gy_product_code`='$my_dir_value' Order By `gy_transdet_date` DESC";
+        $getHistory=selectInventoryBreakdown($productId, $dateFrom, $dateTo);
+    }
 
-    $query_three = "SELECT * From `gy_trans_details` Where `gy_product_code`='$my_dir_value' Order By `gy_transdet_date` DESC ";
-
-    $my_num_rows = 25;
-
-    include 'my_pagination_custom.php';
-
-    $countres=$link->query($query_one)->num_rows;
+    $countHistory=$getHistory->num_rows;
 ?>
 
 <!DOCTYPE html>
@@ -85,77 +85,102 @@
                     <div class="row">
                         <div class="col-md-12">
                             <br>
-                            <p style="font-size: 17px;">
-                               <center>
-                                <span style="font-size: 20px; font-weight: bold;"><i class="fa fa-dropbox"></i> <?php echo $itemname; ?><br>
-                                <small><?php echo $countres; ?> result(s)</small></span><br>
-                                </center>
+                            <p style="font-size: 17px;" class="text-center">
+                                <span style="font-size: 20px; font-weight: bold;"><i class="fa fa-dropbox"></i> <?= $my_project_header_title; ?><br>
+                                <small><?= $countHistory ?> result(s)</small></span><br>
                             </p>
                         </div>
                     </div>
 
                     <div class="row" style="margin-top: 0px;">
                         <div class="col-md-12">
-                            <table class="table table-striped table-bordered table-hover" style="width: 100%; margin-bottom: 20px;">
-                                <thead>
-                                    <tr>
-                                        <th><center>Date</center></th>
-                                        <th><center>Qty</center></th>
-                                        <th style="color: green;"><center>Customer</center></th>
-                                        <th><center>Salesman</center></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                            <form action="history?cd=<?= $productCode ?>" method="POST">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="">From</label>
+                                            <input type="date" class="form-control" name="dateFrom" id="dateFrom" value="<?= $dateFrom ?>" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="">To</label>
+                                            <input type="date" class="form-control" name="dateTo" id="dateTo" value="<?= $dateTo ?>" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="" class="col-sm-12">&nbsp;</label>
+                                            <button type="submit" id="searchHistory" class="btn btn-primary">Search</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover" style="width: 100%; margin-bottom: 20px;">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Code</th>
+                                            <th class="text-center">Type</th>
+                                            <th class="text-center">Qty <span class="text-primary"><?= getProductUnitByCode($productCode) ?></span></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
 
-                                    <?php
-                                        //vars  
-                                        // Select ordered items
+                                        <?php
 
-                                        while ($log_row=$query->fetch_array()) {
-                                            //get transaction info
-                                            $mytranscode=words($log_row['gy_trans_code']);
-                                            $gettransinfo=$link->query("Select * From `gy_transaction` Where `gy_trans_code`='$mytranscode'");
-                                            $transinforow=$gettransinfo->fetch_array();
+                                            while ($history=$getHistory->fetch_array()) {
 
-                                            //get salesman
-                                            $mysalesmandata=words($transinforow['gy_prepared_by']);
-                                            $getsalesman=$link->query("Select * From `gy_user` Where `gy_user_id`='$mysalesmandata'");
-                                            $salesmanrow=$getsalesman->fetch_array();
-                                    ?>                  
-                                    <tr class="<?php echo $rowcolor; ?>">
-                                        <td style="font-weight: bold;"><center><?php echo date("F d, Y - g:i:s A", strtotime($log_row['gy_transdet_date'])); ?></center></td>
-                                        <td style="font-weight: bold;"><center><?php echo $log_row['gy_trans_quantity']." ".$itemunit; ?></center></td>
-                                        <td style="font-weight: bold; color: blue;"><center><?php echo $transinforow['gy_trans_custname']; ?></center></td>
-                                        <td style="font-weight: bold;"><center><?php echo $salesmanrow['gy_full_name']; ?></center></td>
-                                    </tr>
+                                            $dateDisplay = proper_date($history['trans_date']) . " - " . proper_time($history['trans_date']);
                                                 
-                                <?php } ?>
-                                    
-                                </tbody>
-                            </table>
+                                        ?>
+                                        <tr class="info">
+                                            <td><?= $dateDisplay ?></td>
+                                            <td><?= $history['trans_code'] ?></td>
+                                            <td class="text-center"><?= $history['source_table'] ?></td>
+                                            <td class="text-center"><?= $history['trans_qty'] . " " . getInventoryArrowType($history['source_table']) ?></td>
+                                        </tr>
+                                                    
+                                    <?php } ?>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="panel panel-info">
+                                <div class="panel-heading"><i class="fa fa-dropbox"></i> Inventory</div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="panel panel-info">
+                                                <div class="panel-heading">
+                                                    <div class="row">
+                                                        <div class="col-xs-12 text-center">
+                                                            <div style="font-size: 30px; padding-top: 10px;">
+                                                                Current Qty: <?= getProductQtyByCode($productCode) ?>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="text-center"> 
-                         <ul class="pagination">
-                            <?php echo $paginationCtrls; ?>
-                         </ul>
-                    </div>
-                 </div>
-            </div>
-
         </div>
     </div>
 
     <?php include 'footer.php'; ?>
+    <?php include '_alerts.php'; ?>
 
 </body>
-
-
-
 
 </html>

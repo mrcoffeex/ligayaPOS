@@ -17,6 +17,9 @@
                 <a href="sales"><i class="fa fa-file-text fa-fw"></i> Transactions</a>
             </li>
             <li>
+                <a href="reports_general"><i class="fa fa-file-o fa-fw"></i> Reports</a>
+            </li>
+            <li>
                 <a href="users"><i class="fa fa-user fa-fw"></i> Users</a>
             </li>
             <li>
@@ -47,6 +50,9 @@
                     </li>
                 </ul>
             </li>
+            <li>
+                <a href="settings"><i class="fa fa-cogs fa-fw"></i> Settings</a>
+            </li>
             <!-- <li>
                 <a href="#"><i class="fa fa-truck fa-fw"></i> Stock Transfer<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
@@ -71,9 +77,6 @@
             </li>
             <li>
                 <a href="void_trans"><i class="fa fa-times-circle fa-fw"></i> Void Transactions</a>
-            </li>
-            <li>
-                <a href="reports_general"><i class="fa fa-file-o fa-fw"></i> Reports</a>
             </li>
             <li>
                 <a href="notification"><i class="fa fa-globe fa-fw"></i> Notifications</a>

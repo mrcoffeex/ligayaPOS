@@ -17,6 +17,27 @@
 
     }
 
+    function check_password(input1, input2, submitBtn, alertPane){
+
+        var pass1 = document.getElementById(input1).value;
+        var pass2 = document.getElementById(input2).value;
+
+        if (pass1 == "" || pass2 == "") {
+            document.getElementById(submitBtn).disabled = true;
+        }else if (pass1 == "" && pass2 == "") {
+            document.getElementById(submitBtn).disabled = true;
+        }else if (pass1 != pass2) {
+            document.getElementById(submitBtn).disabled = true;
+            document.getElementById(alertPane).innerHTML = "Password Mismatch";
+        }else if (pass1 == pass2) {
+            document.getElementById(submitBtn).disabled = false;
+            document.getElementById(alertPane).innerHTML = "";
+        }else{
+            document.getElementById(submitBtn).disabled = false;
+            document.getElementById(alertPane).innerHTML = "";
+        }
+    }
+
     $(document).ready(function() {
         $('#dataTables-example').DataTable({
                 responsive: true
@@ -49,14 +70,14 @@
     });
 
     // disable inspect element
-    // $(document).on("contextmenu", function (e) {        
-    //     e.preventDefault();
-    // });
+    $(document).on("contextmenu", function (e) {        
+        e.preventDefault();
+    });
 
     //disable back function
-    // function preventBack() { window.history.forward(); }
-    // setTimeout("preventBack()", 0);
-    // window.onunload = function () { null };
+    function preventBack() { window.history.forward(); }
+    setTimeout("preventBack()", 0);
+    window.onunload = function () { null };
 
     
     var alphanumericField = document.getElementById('alphanumericField');
