@@ -1,16 +1,23 @@
 <?php
-    include("../../conf/conn.php");
-    include("../../conf/function.php");
-    include("../../conf/my_project.php");
-    include("session.php");
+    require '../../barcode-generator/src/BarcodeGenerator.php';
+    require '../../barcode-generator/src/BarcodeGeneratorPNG.php';
+    require '../../barcode-generator/src/BarcodeGeneratorHTML.php';
 
-    $getSales=getSalesStats(date("Y-m-d", strtotime(getLatestDate() . "-30 days")), getLatestDate());
+    // Generate a barcode
+    $barcodeText = '1234567890'; // The text you want to encode
 
-    $data = array();
-    foreach ($getSales as $row) {
-        $data[] = $row;
-    }
+    // HTML-based barcode
+    // $generatorHTML = new Picqer\Barcode\BarcodeGeneratorHTML();
+    // $htmlBarcode = $generatorHTML->getBarcode($barcodeText, $generatorHTML::TYPE_CODE_128);
 
-    echo json_encode($data);
+    // echo '<h3>HTML Barcode:</h3>';
+    // echo $htmlBarcode;
 
+    // PNG-based barcode
+    $generatorPNG = new Picqer\Barcode\BarcodeGeneratorPNG();
+    $barcodePNG = $generatorPNG->getBarcode($barcodeText, $generatorPNG::TYPE_CODE_128);
+
+    // Output as an image
+    header('Content-Type: image/png');
+    echo $barcodePNG;
 ?>

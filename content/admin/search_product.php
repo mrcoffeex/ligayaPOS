@@ -256,24 +256,33 @@
                                             }
                                     ?>
 
-                                        <tr class="<?php echo $my_limit; ?>">
-                                            <td style="font-weight: bold; padding: 1px;" title="click to show inventory ...">
+                                        <tr class="<?= $my_limit; ?>">
+                                            <td style="font-weight: bold; padding: 1px;" title="click to show barcode ...">
                                                 <center>
                                                     <a 
-                                                        href="history?cd=<?= $product_row['gy_product_code'] ?>" 
+                                                        href="productBarcode?productCode=<?= $product_row['gy_product_code'] ?>" 
                                                         onclick="window.open(this.href, 'mywin', 'left=20, top=20, width=1280, height=720, toolbar=1, resizable=0'); return false;"
                                                     >
                                                         <?= $product_row['gy_product_code'] ?>
                                                     </a>
                                                 </center>
                                             </td>
-                                            <td style="padding: 1px;" title="click to show photo ..."><center><a href="previewImage?productId=<?= $product_row['gy_product_id'] ?>" onclick="window.open(this.href, 'mywin', 'left=20, top=20, width=1280, height=720, toolbar=1, resizable=0'); return false;"><?php echo $product_row['gy_product_name']; ?></a></center></td>
-                                            <td style="padding: 1px;"><center><?php echo number_format($product_row['gy_product_price_cap'],2); ?></center></td>
-                                            <td style="padding: 1px;"><center><?php echo number_format($product_row['gy_product_price_srp'],2); ?></center></td>
-                                            <td style="padding: 1px;"><center><?php echo number_format($product_row['gy_product_discount_per'],2); ?></center></td>
-                                            <td style="padding: 1px;"><center><?php echo $product_row['gy_product_quantity']." ".$product_row['gy_product_unit']; ?></center></td>
-                                            <td style="font-weight: bold; padding: 1px;"><center><?php echo get_branch_name($product_row['gy_branch_id']); ?></center></td>
-                                            <td style="font-weight: bold; padding: 1px;"><center><?php echo $product_row['gy_product_cat']; ?> / <?php echo $product_row['gy_product_color']; ?></center></td>
+                                            <td style="padding: 1px;" title="click to show photo ..."><center><a href="previewImage?productId=<?= $product_row['gy_product_id'] ?>" onclick="window.open(this.href, 'mywin', 'left=20, top=20, width=1280, height=720, toolbar=1, resizable=0'); return false;"><?= $product_row['gy_product_name']; ?></a></center></td>
+                                            <td style="padding: 1px;"><center><?= number_format($product_row['gy_product_price_cap'],2); ?></center></td>
+                                            <td style="padding: 1px;"><center><?= number_format($product_row['gy_product_price_srp'],2); ?></center></td>
+                                            <td style="padding: 1px;"><center><?= number_format($product_row['gy_product_discount_per'],2); ?></center></td>
+                                            <td style="padding: 1px;" title="click to show inventory ...">
+                                                <center>
+                                                    <a 
+                                                        href="history?cd=<?= $product_row['gy_product_code'] ?>" 
+                                                        onclick="window.open(this.href, 'mywin', 'left=20, top=20, width=1280, height=720, toolbar=1, resizable=0'); return false;"
+                                                    >
+                                                        <?= $product_row['gy_product_quantity']." ".$product_row['gy_product_unit']; ?>
+                                                    </a>
+                                                </center>
+                                            </td>
+                                            <td style="font-weight: bold; padding: 1px;"><center><?= get_branch_name($product_row['gy_branch_id']); ?></center></td>
+                                            <td style="font-weight: bold; padding: 1px;"><center><?= $product_row['gy_product_cat']; ?> / <?= $product_row['gy_product_color']; ?></center></td>
                                             <td class="text-center" style="padding: 1px;">
                                                 <a href="product_details?productId=<?= $product_row['gy_product_id']; ?>" 
                                                     title="click to view sold history ..." 
@@ -286,8 +295,8 @@
                                                     </button>
                                                 </a>
                                             </td>
-                                            <td style="padding: 1px;"><center><a href="edit_product?cd=<?php echo $product_row['gy_product_id']; ?>&pn=<?= $pagenum; ?>&br=<?= $br; ?>&search_text=<?php echo $search_text; ?>&s_type=search"><button type="button" class="btn btn-info" title="click to edit product details"><i class="fa fa-edit fa-fw"></i></button></a></center></td>
-                                            <td style="padding: 1px;"><center><button type="button" class="btn btn-danger" title="click to delete product" data-target="#delete_<?php echo $product_row['gy_product_id']; ?>" data-toggle="modal"><i class="fa fa-trash-o fa-fw"></i></button></center></td>
+                                            <td style="padding: 1px;"><center><a href="edit_product?cd=<?= $product_row['gy_product_id']; ?>&pn=<?= $pagenum; ?>&s_type=normal"><button type="button" class="btn btn-info" title="click to edit product details"><i class="fa fa-edit fa-fw"></i></button></a></center></td>
+                                            <td style="padding: 1px;"><center><button type="button" class="btn btn-danger" title="click to delete product" data-target="#delete_<?= $product_row['gy_product_id']; ?>" data-toggle="modal"><i class="fa fa-trash-o fa-fw"></i></button></center></td>
                                         </tr>
 
                                         <!-- Delete -->

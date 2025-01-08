@@ -11,6 +11,17 @@
                 <a href="album"><i class="fa fa-image fa-fw"></i> Product Image</a>
             </li>
             <li>
+                <a href="#"><i class="fa fa-file fa-fw"></i> Quotation<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="request_counter">Create <i class="fa fa-chevron-circle-right fa-fw"></i></a>
+                    </li>
+                    <li>
+                        <a href="request_reports">Quotations <i class="fa fa-chevron-circle-right fa-fw"></i></a>
+                    </li>
+                </ul>
+            </li>
+            <li>
                 <a href="sold"><i class="fa fa-check fa-fw"></i> Items Sold</a>
             </li>
             <li>

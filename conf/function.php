@@ -714,6 +714,17 @@
 
     }
 
+    function selectProductByCode($productCode){
+
+        include 'conn.php';
+
+        $statement=$link->query("SELECT * From gy_products
+                                Where
+                                gy_product_code = '$productCode'");
+        return $statement;
+
+    }
+
     function countAlbum($limit){
 
         include 'conn.php';

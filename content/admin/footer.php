@@ -79,13 +79,16 @@
     setTimeout("preventBack()", 0);
     window.onunload = function () { null };
 
-    
     var alphanumericField = document.getElementById('alphanumericField');
 
-    alphanumericField.addEventListener('input', function() {
-        var fieldValue = alphanumericField.value;
-        var alphanumericValue = fieldValue.replace(/[^a-zA-Z0-9-]/g, '');
-        alphanumericField.value = alphanumericValue;
-    });
-
+    if (alphanumericField !== null) {
+        alphanumericField.addEventListener('input', function() {
+            var fieldValue = alphanumericField.value;
+            var alphanumericValue = fieldValue.replace(/[^a-zA-Z0-9-]/g, '');
+            alphanumericField.value = alphanumericValue;
+        });
+    } else {
+        //nothing
+    }
+    
     </script>

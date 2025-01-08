@@ -181,10 +181,10 @@
                                     ?>
 
                                         <tr class="<?= $my_limit; ?>">
-                                            <td style="font-weight: bold; padding: 1px;" title="click to show inventory ...">
+                                            <td style="font-weight: bold; padding: 1px;" title="click to show barcode ...">
                                                 <center>
                                                     <a 
-                                                        href="history?cd=<?= $product_row['gy_product_code'] ?>" 
+                                                        href="productBarcode?productCode=<?= $product_row['gy_product_code'] ?>" 
                                                         onclick="window.open(this.href, 'mywin', 'left=20, top=20, width=1280, height=720, toolbar=1, resizable=0'); return false;"
                                                     >
                                                         <?= $product_row['gy_product_code'] ?>
@@ -195,7 +195,16 @@
                                             <td style="padding: 1px;"><center><?= number_format($product_row['gy_product_price_cap'],2); ?></center></td>
                                             <td style="padding: 1px;"><center><?= number_format($product_row['gy_product_price_srp'],2); ?></center></td>
                                             <td style="padding: 1px;"><center><?= number_format($product_row['gy_product_discount_per'],2); ?></center></td>
-                                            <td style="padding: 1px;"><center><?= $product_row['gy_product_quantity']." ".$product_row['gy_product_unit']; ?></center></td>
+                                            <td style="padding: 1px;" title="click to show inventory ...">
+                                                <center>
+                                                    <a 
+                                                        href="history?cd=<?= $product_row['gy_product_code'] ?>" 
+                                                        onclick="window.open(this.href, 'mywin', 'left=20, top=20, width=1280, height=720, toolbar=1, resizable=0'); return false;"
+                                                    >
+                                                        <?= $product_row['gy_product_quantity']." ".$product_row['gy_product_unit']; ?>
+                                                    </a>
+                                                </center>
+                                            </td>
                                             <td style="font-weight: bold; padding: 1px;"><center><?= get_branch_name($product_row['gy_branch_id']); ?></center></td>
                                             <td style="font-weight: bold; padding: 1px;"><center><?= $product_row['gy_product_cat']; ?> / <?= $product_row['gy_product_color']; ?></center></td>
                                             <td class="text-center" style="padding: 1px;">

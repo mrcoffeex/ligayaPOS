@@ -14,7 +14,7 @@
     $user_type = $_SESSION['fus_user_type'];
 
     //find user
-    $identify_user=$link->query("Select * From `gy_user` Where `gy_user_id`='$user_id'");
+    $identify_user=$link->query("SELECT * From `gy_user` Where `gy_user_id`='$user_id'");
     $row=$identify_user->fetch_array();
 
     $user_info = $row['gy_full_name'];
