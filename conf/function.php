@@ -284,23 +284,71 @@
         return $str;
     }
 
-    function toAlpha($number){
-        
-        $alphabet = array('N', 'S', 'T', 'A', 'R', 'G', 'O', 'L', 'D', 'E');
-
+    function toAlpha($number) {
+        $alphabet = array('Z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I');
         $count = count($alphabet);
-        if ($number == 10){
-            $alpha = "SN";
-        } else if ($number <= $count) {
-            return $alphabet[$number - 0];
+    
+        $integerPart = floor($number);
+        $alphaInteger = '';
+    
+        if ($integerPart == 10) {
+            $alphaInteger = "AZ";
+        } else if ($integerPart <= $count && $integerPart > 0) {
+            $alphaInteger = $alphabet[$integerPart];
+        } else {
+            while ($integerPart > 0) {
+                $modulo = $integerPart % $count;
+                $alphaInteger = $alphabet[$modulo] . $alphaInteger;
+                $integerPart = floor($integerPart / $count);
+            }
         }
-        $alpha = '';
-        while ($number > 0) {
-            $modulo = ($number - 0) % $count;
-            $alpha  = $alphabet[$modulo] . $alpha;
-            $number = floor((($number - $modulo) / $count));
+    
+        $decimalPart = $number - floor($number);
+        $alphaDecimal = '';
+    
+        if ($decimalPart > 0) {
+            $alphaDecimal = '.';
+            while ($decimalPart > 0) {
+                $decimalPart *= $count;
+                $index = floor($decimalPart);
+                $alphaDecimal .= $alphabet[$index];
+                $decimalPart -= $index;
+                if (strlen($alphaDecimal) > 2) break;
+            }
         }
-        return $alpha;
+
+        if ($number <= 0) {
+            return "Z";
+        } else {
+            return $alphaInteger . $alphaDecimal;
+        }
+    
+    }
+    
+    function toBeta($alpha) {
+        $alphabet = array('Z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I');
+        $count = count($alphabet);
+        $alphaToIndex = array_flip($alphabet);
+    
+        $parts = explode('.', $alpha);
+        $alphaInteger = $parts[0];
+        $alphaDecimal = isset($parts[1]) ? $parts[1] : '';
+    
+        $integerPart = 0;
+        $length = strlen($alphaInteger);
+        for ($i = 0; $i < $length; $i++) {
+            $integerPart = $integerPart * $count + $alphaToIndex[$alphaInteger[$i]];
+        }
+    
+        $decimalPart = 0;
+        $decimalMultiplier = 1 / $count;
+        $length = strlen($alphaDecimal);
+        for ($i = 0; $i < $length; $i++) {
+            $decimalPart += $alphaToIndex[$alphaDecimal[$i]] * $decimalMultiplier;
+            $decimalMultiplier /= $count;
+        }
+    
+        return $integerPart + $decimalPart;
     }
 
     function paymentMethod($var){

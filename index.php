@@ -2,6 +2,7 @@
 
     include 'conf/conn.php';
     include 'conf/my_project.php';
+    include 'config.php';
 
     session_start();
 
@@ -29,7 +30,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
 
-    <title><?php echo $my_project_name; ?></title>
+    <title><?= $my_project_name; ?></title>
 	<link rel = "shortcut icon" href = "img/logo.ico">
 	<link href="login/css/kent.css" rel="stylesheet" />
     <link href="login/css/bootstrap.css" rel="stylesheet" />
@@ -74,7 +75,7 @@
     <div class="container">
         <div class="row text-center pad-top ">
             <div class="col-md-12">
-                <h2 class = "blabla" style="color: #5a422d;"><?php echo $my_project_name; ?></h2>
+                <h2 class = "blabla" style="color: #5a422d;"><?= $my_project_name; ?></h2>
                 <b>
                     <center>
                     <span id="tick2" style="color: #5a422d;">      
@@ -138,7 +139,9 @@
             </div>
         </div>
 
-        <p style="position: absolute; bottom: 0; right: 0; color: white; margin: 7px;">
+        <p style="position: absolute; bottom: 0; right: 45%; color: #000; margin: 7px;" class="text-center">
+            App Version: v1.1.1
+            <br>
             Powered By: <a href="https://www.facebook.com/krazyappsph" target="_NEW">KrazyAppsPH</a>
         </p>
     </div>

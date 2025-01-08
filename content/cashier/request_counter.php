@@ -148,6 +148,7 @@
                                             <th>Description</th>
                                             <th class="text-center">Price</th>
                                             <th class="text-center">Quantity</th>
+                                            <th class="text-center">SubTotal</th>
                                             <th class="text-center">Edit</th>
                                             <th class="text-center">Remove</th>
                                         </tr>
@@ -155,6 +156,7 @@
                                     <tbody>
                                         <?php  
                                             //get items
+                                            $grandTotal=0;
                                             while ($item_row=$get_items->fetch_array()) {
 
                                                 $getProduct=selectProductByCode($item_row['gy_product_code']);
@@ -165,6 +167,9 @@
                                                 } else {
                                                     $rowColor = "success";
                                                 }
+
+                                                $subTotal = $item_row['gy_product_price_srp'] * $item_row['gy_rqt_quantity'];
+                                                $grandTotal += $subTotal;
                                                 
                                         ?>
                                             <tr class="<?= $rowColor ?>">
@@ -175,6 +180,7 @@
                                                 </td>
                                                 <td class="text-center text-bold"><?= RealNumber($item_row['gy_product_price_srp'], 2) ?> <br></td>
                                                 <td class="text-center text-bold"><?= $item_row['gy_rqt_quantity']." ".$product['gy_product_unit']; ?></td>
+                                                <td class="text-center text-bold"><?= RealNumber($subTotal, 2) ?> <br></td>
                                                 <td class="text-center text-bold">
                                                     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#edit_<?= $item_row['gy_rqt_id']; ?>" title="click to edit quantity ..."><i class="fa fa-edit fa-fw"></i></button>
                                                 </td>
@@ -196,6 +202,11 @@
                                                             <form method="post" enctype="multipart/form-data" action="edit_request_quantity?cd=<?= $item_row['gy_rqt_id']; ?>">
 
                                                                 <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group">
+                                                                            <label for="">CAP: <span class="text-primary" title="<?= $product['gy_product_price_cap'] ?>"><?= toAlpha($product['gy_product_price_cap']) ?></span></label>
+                                                                        </div>
+                                                                    </div>
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label>Quantity <span class="text-success"><?= $product['gy_product_unit']; ?></span></label>
@@ -249,6 +260,12 @@
                                             </div>
 
                                         <?php } ?>
+                                        <tr>
+                                            <td colspan="3"></td>
+                                            <td class="pull-right text-bold" style="color: blue; font-size: 17px;">Total</td>
+                                            <td class="text-bold text-center" style="color: blue; font-size: 17px;"><?= RealNumber($grandTotal, 2); ?></td>
+                                            <td colspan="2"></td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
