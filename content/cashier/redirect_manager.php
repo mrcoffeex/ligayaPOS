@@ -140,6 +140,18 @@ include("../../conf/my_project.php");
             header("location: search_patient?search_text=$search_pat");
         }
     }
+
+    //search quotation
+    if (isset($_POST['request_btn'])) {
+        $rqt_from = words($_POST['request_date_search_f']);
+        $rqt_to = words($_POST['request_date_search_t']);
+
+        if ($rqt_from == "" || $rqt_to == "") {
+            header("location: request_reports?cd=empty_search");
+        }else{
+            header("location: search_request_reports?datef=$rqt_from&datet=$rqt_to");
+        }
+    }
 ?>
 
 <!DOCTYPE html>

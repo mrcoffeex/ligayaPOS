@@ -129,6 +129,11 @@
                                 <?php  
                                     }
                                 ?>
+                                <tr>
+                                    <td colspan="4"></td>
+                                    <td class="pla text-bold" style="padding: 4px;">Total</td>
+                                    <td class="pla text-bold" style="padding: 4px;"><?= RealNumber($grandTotal, 2) ?></td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>

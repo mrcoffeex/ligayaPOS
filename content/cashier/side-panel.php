@@ -5,6 +5,17 @@
                 <a href="cashier" style="color: green;"><i class="fa fa-desktop fa-fw"></i> Cashier</a>
             </li>
             <li>
+                <a href="#"><i class="fa fa-file fa-fw"></i> Quotation<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="request_counter">Create <i class="fa fa-chevron-circle-right fa-fw"></i></a>
+                    </li>
+                    <li>
+                        <a href="request_reports">Quotations <i class="fa fa-chevron-circle-right fa-fw"></i></a>
+                    </li>
+                </ul>
+            </li>
+            <li>
                 <a href="sales_report"><i class="fa fa-file-text fa-fw"></i> Sales Report</a>
             </li>
             <li>

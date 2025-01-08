@@ -364,6 +364,39 @@
         
         return $res;
     }
+    
+    function addCharsAfter($string, $chars){
+
+        $res = $string."".$chars;
+
+        return $res;
+
+    }
+    
+    function removeCharThatStarts($string, $char){
+
+        $res = substr($string, 0, strpos($string, $char));
+
+        if (empty($res)) {
+            return $string;
+        } else {
+            return $res;
+        }
+
+    }
+    
+    function checkfile($file){
+
+        $ext = pathinfo($file, PATHINFO_EXTENSION);
+
+        if ($ext == "csv") {
+            $r_value = 1;
+        }else{
+            $r_value = 0;
+        }
+
+        return $r_value;
+    }
 
     function latest_code($ltable, $lcolumn, $lfirstcount){
 
@@ -638,6 +671,37 @@
         } else {
             return 0;
         }
+
+    }
+    
+    function count_cat_qty($cat, $date){
+
+        include 'conn.php';
+
+        if (empty($date)) {
+            $query = "SELECT 
+                    gy_product_id 
+                    From 
+                    gy_products 
+                    Where 
+                    gy_product_cat='$cat'";
+        } else {
+            $query = "SELECT 
+                    gy_product_id 
+                    From 
+                    gy_products 
+                    Where 
+                    gy_product_cat='$cat'
+                    AND
+                    date(gy_product_update_date) 
+                    BETWEEN
+                    '$date' AND CURDATE()";
+        }
+
+        $statement=$link->query($query);
+        $count=$statement->num_rows;
+
+        return $count;
 
     }
 

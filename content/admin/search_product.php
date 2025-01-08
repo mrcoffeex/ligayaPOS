@@ -148,7 +148,6 @@
                     <h3 class="page-header"><i class="fa fa-search"></i> <?php echo $my_project_header_title; ?></h3>
                 </div>
                 <div class="col-lg-4">
-                    <!-- notification here -->
                     <div class="alert alert-<?php echo @$color_note; ?> alert-dismissable" id="my_note" style="margin-top: 12px; visibility: <?php echo @$the_note_status; ?>">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                         <?php echo @$message; ?>.
@@ -295,7 +294,7 @@
                                                     </button>
                                                 </a>
                                             </td>
-                                            <td style="padding: 1px;"><center><a href="edit_product?cd=<?= $product_row['gy_product_id']; ?>&pn=<?= $pagenum; ?>&s_type=normal"><button type="button" class="btn btn-info" title="click to edit product details"><i class="fa fa-edit fa-fw"></i></button></a></center></td>
+                                            <td style="padding: 1px;"><center><a href="edit_product?cd=<?= $product_row['gy_product_id']; ?>&pn=<?= $pagenum; ?>&s_type=search&search_text=<?= $search_text ?>&br=<?= $br ?>"><button type="button" class="btn btn-info" title="click to edit product details"><i class="fa fa-edit fa-fw"></i></button></a></center></td>
                                             <td style="padding: 1px;"><center><button type="button" class="btn btn-danger" title="click to delete product" data-target="#delete_<?= $product_row['gy_product_id']; ?>" data-toggle="modal"><i class="fa fa-trash-o fa-fw"></i></button></center></td>
                                         </tr>
 
