@@ -83,6 +83,7 @@
                                         <thead>
                                             <tr class="info">
                                                 <th>QTY</th>
+                                                <th>Barcode</th>
                                                 <th>Item</th>
                                                 <th class="text-center">Price</th>
                                                 <th class="text-right">SubTotal</th>
@@ -103,6 +104,7 @@
                                                     <span class="text-bold text-primary"><?= $item['gy_trans_quantity'] ?></span> 
                                                     <span class="pull-right"><?= getProductUnit($item['gy_product_id']) ?></span>
                                                 </td>
+                                                <td><?= getProductCode($item['gy_product_id']) ?></td>
                                                 <td><?= getProductName($item['gy_product_id']) ?></td>
                                                 <td class="text-center"><?= RealNumber($item['gy_product_price'], 2) ?></td>
                                                 <td class="text-right"><?= RealNumber($subTotal, 2) ?></td>
@@ -116,19 +118,19 @@
                                                     
                                             <tr>
                                                 <td class="text-center text-bold text-uppercase"></td>
-                                                <td class="text-center text-bold text-uppercase" colspan="2">Total</td>
+                                                <td class="text-center text-bold text-uppercase" colspan="3">Total</td>
                                                 <td class="text-right text-bold"><?= RealNumber($grand_total, 2) ?></td>
                                             </tr>
                                                     
                                             <tr>
                                                 <td class="text-center text-bold text-uppercase"></td>
-                                                <td class="text-center text-bold text-uppercase" colspan="2">Cash</td>
+                                                <td class="text-center text-bold text-uppercase" colspan="3">Cash</td>
                                                 <td class="text-right text-bold"><?= RealNumber($transaction['gy_trans_cash'], 2) ?></td>
                                             </tr>
                                                     
                                             <tr>
                                                 <td class="text-center text-bold text-uppercase"></td>
-                                                <td class="text-center text-bold text-uppercase" colspan="2">Change</td>
+                                                <td class="text-center text-bold text-uppercase" colspan="3">Change</td>
                                                 <td class="text-right text-bold"><?= RealNumber($transaction['gy_trans_change'], 2) ?></td>
                                             </tr>
                                             
