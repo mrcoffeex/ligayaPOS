@@ -329,10 +329,9 @@
             return true;  
       
         }  
-    </script>
-
-    <script type="text/javascript">
+        
         var timer;
+        
         $(document).ready(function(){
             $("#product_search").keyup(function(){
                 clearTimeout(timer);

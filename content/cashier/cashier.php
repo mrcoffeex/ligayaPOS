@@ -476,6 +476,7 @@
         }
 
         var timer;
+        
         $(document).ready(function(){
             $("#product_search").keyup(function(){
                 clearTimeout(timer);
