@@ -173,14 +173,30 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <form method="post" enctype="multipart/form-data" action="add_item_c?cd=<?= $my_trans_code; ?>">
-                            <input type="text" class="form-control" placeholder="Search for Product Bar Code/Product Name ...  (alt + 1)" accesskey="1" list="myProducts" name="product_search" id="suggest" style="border-radius: 0px;" autocomplete="off" autofocus required>
+                <form method="post" enctype="multipart/form-data" action="add_item_c?cd=<?= $my_trans_code; ?>">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="">barcode / product name / category</label>
+                            <input type="text" class="form-control" placeholder="Search for Product Bar Code/Product Name/Category ...  (alt + 1)" accesskey="1" list="myProducts" name="product_search" id="product_search" style="border-radius: 0px;" autocomplete="off" autofocus required>
                             <datalist id="myProducts"></datalist>
-                        </form>
+                        </div>
                     </div>
-                </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="">Pricing</label>
+                            <select name="pricing" id="pricing" class="form-control">
+                                <option value="0">low to high</option>
+                                <option value="1">high to low</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="col-ms-12">&nbsp;</label>
+                            <button type="submit" class="btn btn-success btn-block">Search</button>
+                        </div>
+                    </div>
+                </form>
 
                 <?php  
 
@@ -451,47 +467,30 @@
     <?php include 'footer.php'; ?>
 
     <script type="text/javascript">  
+    
         function validateForm(formObj) {
       
             formObj.process.disabled = true; 
             return true;  
       
-        }  
-    </script>
+        }
 
-    <script type="text/javascript">
         var timer;
         $(document).ready(function(){
-            $("#suggest").keyup(function(){
+            $("#product_search").keyup(function(){
                 clearTimeout(timer);
                 var ms = 200; // milliseconds
-                $.get("live_search", {product_search: $(this).val()}, function(data){
+                $.get("live_search_cashier", {product_search: $(this).val(), pricing: $('#pricing').val()}, function(data){
                     timer = setTimeout(function() {
                         $("datalist").empty();
                         $("datalist").html(data);
                     }, ms);
+
+                    console.log(data);
                 });
             });
         });
-    </script>
 
-    <script type="text/javascript">
-        var timer;
-        $(document).ready(function(){
-            $("#my_cust_name").keyup(function(){
-                clearTimeout(timer);
-                var ms = 200;
-                $.get("live_search_account_name", {my_cust_name: $(this).val()}, function(data){
-                    timer = setTimeout(function() {
-                        $("#res_name").empty();
-                        $("#res_name").html(data);
-                    }, ms);
-                });
-            });
-        });
-    </script>
-
-    <script type="text/javascript">
         function get_the_change(){
             var cash = document.getElementById('my_cash').value;
             var total = <?= 0 + $total; ?>;
