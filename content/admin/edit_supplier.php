@@ -59,56 +59,57 @@
                     </div>
                 </div>
             </div>
+
             <div class="row">
-                <form method="post" enctype="multipart/form-data" action="edit_this_supplier?cd=<?php echo $supplier_row['gy_supplier_id']; ?>">
+                <div class="col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            New Supplier
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <form method="post" enctype="multipart/form-data" action="edit_this_supplier?cd=<?php echo $supplier_row['gy_supplier_id']; ?>">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Supplier Name</label>
+                                            <input type="text" class="form-control" maxlength="100" name="my_name" value="<?php echo $supplier_row['gy_supplier_name']; ?>" required>
+                                        </div>
+                                    </div>
 
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Supplier Name</label>
-                                    <input type="text" class="form-control" maxlength="100" name="my_name" value="<?php echo $supplier_row['gy_supplier_name']; ?>" required>
-                                </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Supplier Description</label>
+                                            <textarea class="form-control" rows="2" maxlength="200" name="my_desc" placeholder="Enter supplier details and supplier agents ..."><?php echo $supplier_row['gy_supplier_desc']; ?></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Supplier Address</label>
+                                            <textarea class="form-control" rows="2" maxlength="200" name="my_address" placeholder="text here ..." required><?php echo $supplier_row['gy_supplier_address']; ?></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Contact #</label>
+                                            <input type="text" class="form-control" name="my_contact" maxlength="11" placeholder="Ex. 09xxxxxxxxx" value="<?php echo $supplier_row['gy_supplier_contact']; ?>" required>
+                                        </div>
+                                    </div>
+
+                                    <!-- Submit Button Here -->
+                                    <div class="col-md-12">
+                                        <div class="form-group" style="padding-top: 10px;">
+                                            <button type="submit" name="auth_edit_supplier" class="btn btn-primary"><i class="fa fa-save fa-fw"></i> Save</button>
+                                            <button type="reset" class="btn btn-warning"><i class="fa fa-edit fa-fw"></i> New / Reset</button>
+                                            <a href="suppliers"><button type="button" class="btn btn-danger"><i class="fa fa-times fa-fw"></i> Exit</button></a>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Supplier Description</label>
-                                    <textarea class="form-control" rows="2" maxlength="200" name="my_desc" placeholder="Enter supplier details and supplier agents ..."><?php echo $supplier_row['gy_supplier_desc']; ?></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Supplier Address</label>
-                                    <textarea class="form-control" rows="2" maxlength="200" name="my_address" placeholder="text here ..." required><?php echo $supplier_row['gy_supplier_address']; ?></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Contact #</label>
-                            <input type="text" class="form-control" name="my_contact" maxlength="11" placeholder="Ex. 09xxxxxxxxx" value="<?php echo $supplier_row['gy_supplier_contact']; ?>" required>
-                        </div>
-                    </div>
-
-                    <!-- Submit Button Here -->
-                    <div class="col-md-9">
-                        <button type="submit" name="auth_edit_supplier" class="btn btn-primary"><i class="fa fa-save fa-fw"></i> Save</button>
-                        <button type="reset" class="btn btn-warning"><i class="fa fa-edit fa-fw"></i> New / Reset</button>
-                        <a href="suppliers"><button type="button" class="btn btn-danger"><i class="fa fa-times fa-fw"></i> Exit</button></a>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>

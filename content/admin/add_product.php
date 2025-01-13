@@ -94,20 +94,16 @@
 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Color</label>
-                                        <select name="my_color" class="form-control" required>
-                                            <option></option>
-                                            <option>Red</option>
-                                            <option>Pink</option>
-                                            <option>Orange</option>
-                                            <option>Yellow</option>
-                                            <option>Green</option>
-                                            <option>Blue</option>
-                                            <option>Brown</option>
-                                            <option>Violet/Purple</option>
-                                            <option>Black</option>
-                                            <option>White</option>
-                                            <option>Other</option>
+                                        <label>Supplier</label>
+                                        <select name="my_supplier" class="form-control" required>
+                                            <option value=""></option>
+                                            <option value="0">none</option>
+                                            <?php  
+                                                $getSuppliers=selectSuppliers();
+                                                while ($supplier=$getSuppliers->fetch_array()) {
+                                            ?>
+                                            <option value="<?= $supplier['gy_supplier_code'] ?>"><?= $supplier['gy_supplier_name'] ?></option>
+                                            <?php } ?>
                                         </select>
                                     </div>
                                 </div>

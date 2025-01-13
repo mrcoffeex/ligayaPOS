@@ -11,6 +11,9 @@
                 <a href="album"><i class="fa fa-image fa-fw"></i> Product Image</a>
             </li>
             <li>
+                <a href="suppliers"><i class="fa fa-building-o fa-fw"></i> Supplier List</a>
+            </li>
+            <li>
                 <a href="#"><i class="fa fa-file fa-fw"></i> Quotation<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>

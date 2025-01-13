@@ -801,6 +801,16 @@
 
     // supplier
 
+    function selectSuppliers(){
+
+        include 'conn.php';
+
+        $statement=$link->query("SELECT * From gy_supplier Order By gy_supplier_name ASC");
+
+        return $statement;
+
+    }
+
     function selectSupplier($supplierCode){
 
         include 'conn.php';

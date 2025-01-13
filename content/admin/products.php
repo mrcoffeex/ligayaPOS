@@ -142,7 +142,7 @@
                                             <th><center>LIMIT</center></th>
                                             <th><center>Quantity</center></th>
                                             <th><center>Branch</center></th>
-                                            <th><center>Category / Color</center></th>
+                                            <th><center>Category</center></th>
                                             <th><center>Details</center></th>
                                             <th><center>Edit</center></th>
                                             <th><center>Delete</center></th>
@@ -206,7 +206,7 @@
                                                 </center>
                                             </td>
                                             <td style="font-weight: bold; padding: 1px;"><center><?= get_branch_name($product_row['gy_branch_id']); ?></center></td>
-                                            <td style="font-weight: bold; padding: 1px;"><center><?= $product_row['gy_product_cat']; ?> / <?= $product_row['gy_product_color']; ?></center></td>
+                                            <td style="font-weight: bold; padding: 1px;"><center><?= $product_row['gy_product_cat']; ?></center></td>
                                             <td class="text-center" style="padding: 1px;">
                                                 <a href="product_details?productId=<?= $product_row['gy_product_id']; ?>" 
                                                     title="click to view sold history ..." 

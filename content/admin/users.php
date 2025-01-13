@@ -163,7 +163,7 @@
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <button type="submit" name="submit_user" id="submit_user" class="btn btn-primary" title="click to add user ..." disabled="false">Add <i class="fa fa-angle-right fa-fw"></i></button>
+                                                    <button type="submit" name="submit_user" id="submit_user" class="btn btn-primary" title="click to add user ...">Add <i class="fa fa-angle-right fa-fw"></i></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -277,37 +277,6 @@
     </div>
 
     <?php include 'footer.php'; ?>
-
-    <script type="text/javascript">
-
-        $(document).ready(function(){
-            $('#my_role option[value="0"]').prop('disabled', false);
-            $('#my_role option[value="1"]').prop('disabled', false);
-            $('#my_role option[value="2"]').prop('disabled', true);
-            $('#my_role option[value="3"]').prop('disabled', true);
-            $('#my_role option[value="4"]').prop('disabled', false);
-
-            $('#my_branch').change(function() {
-                
-                $('#my_role').val('');
-
-                if ($('#my_branch').val() == 0) {
-                    $('#my_role option[value="0"]').prop('disabled', false);
-                    $('#my_role option[value="1"]').prop('disabled', false);
-                    $('#my_role option[value="2"]').prop('disabled', true);
-                    $('#my_role option[value="3"]').prop('disabled', true);
-                    $('#my_role option[value="4"]').prop('disabled', false);
-                }else{
-                    $('#my_role option[value="0"]').prop('disabled', true);
-                    $('#my_role option[value="1"]').prop('disabled', true);
-                    $('#my_role option[value="2"]').prop('disabled', false);
-                    $('#my_role option[value="3"]').prop('disabled', false);
-                    $('#my_role option[value="4"]').prop('disabled', true);
-                }
-                
-            });
-        });
-    </script>
 
 </body>
 

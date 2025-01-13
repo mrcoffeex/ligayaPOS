@@ -17,15 +17,15 @@
         $back_link = "search_product?pn=$pagenum&br=$br&search_text=$search_text";
     }
 
-    $get_product_info=$link->query("Select * From `gy_products` Where `gy_product_id`='$my_dir_value'");
+    $get_product_info=$link->query("SELECT * From `gy_products` Where `gy_product_id`='$my_dir_value'");
     $product_row=$get_product_info->fetch_array();
 
     $my_product_id = $product_row['gy_product_id'];
     $my_product_code = $product_row['gy_product_code'];
     $my_supplier_code = $product_row['gy_supplier_code'];
 
-    $get_supplier_info=$link->query("Select * From `gy_supplier` Where `gy_supplier_code`='$my_supplier_code'");
-    $supplier_info_row=$get_supplier_info->fetch_array();
+    $getSupplier=selectSupplier($my_supplier_code);
+    $supplier=$getSupplier->fetch_array();
 
     $my_project_header_title = "Edit Product";
 
@@ -73,18 +73,18 @@
 
             <div class="row">
                 <div class="col-lg-8">
-                    <h3 class="page-header"><i class="fa fa-edit"></i> <?php echo $my_project_header_title." - ".$product_row['gy_product_name']; ?></h3>
+                    <h3 class="page-header"><i class="fa fa-edit"></i> <?= $my_project_header_title." - ".$product_row['gy_product_name']; ?></h3>
                 </div>
                 <div class="col-lg-4">
                     <!-- notification here -->
-                    <div class="alert alert-<?php echo @$color_note; ?> alert-dismissable" id="my_note" style="margin-top: 12px; visibility: <?php echo @$the_note_status; ?>">
+                    <div class="alert alert-<?= @$color_note; ?> alert-dismissable" id="my_note" style="margin-top: 12px; visibility: <?= @$the_note_status; ?>">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <?php echo @$message; ?>.
+                        <?= @$message; ?>.
                     </div>
                 </div>
             </div>
             <div class="row">
-                <form method="post" enctype="multipart/form-data" action="edit_this_product?cd=<?php echo $my_product_id; ?>&pn=<?= $pagenum; ?>&s_type=<?= $s_type; ?>&br=<?= $br; ?>&search_text=<?php echo $search_text; ?>" onsubmit="return validateForm(this);">
+                <form method="post" enctype="multipart/form-data" action="edit_this_product?cd=<?= $my_product_id; ?>&pn=<?= $pagenum; ?>&s_type=<?= $s_type; ?>&br=<?= $br; ?>&search_text=<?= $search_text; ?>" onsubmit="return validateForm(this);">
 
                 <div class="col-md-6">
                         <div class="panel panel-primary">
@@ -93,7 +93,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Bar Code</label>
-                                        <input type="text" class="form-control" maxlength="100" id="alphanumericField" name="my_code" value="<?php echo $product_row['gy_product_code']; ?>" required>
+                                        <input type="text" class="form-control" maxlength="100" id="alphanumericField" name="my_code" value="<?= $product_row['gy_product_code']; ?>" required>
                                     </div>
                                 </div>
 
@@ -101,13 +101,13 @@
                                     <div class="form-group">
                                         <label>Category</label>
                                         <select name="my_category" class="form-control" required>
-                                            <option><?php echo $product_row['gy_product_cat']; ?></option>
+                                            <option><?= $product_row['gy_product_cat']; ?></option>
                                             <?php  
                                                 //categories
                                                 $get_categories=$link->query("Select * From `gy_category` Order By `gy_cat_id` ASC");
                                                 while ($category_row=$get_categories->fetch_array()) {
                                             ?>
-                                            <option><?php echo $category_row['gy_cat_name']; ?></option>
+                                            <option><?= $category_row['gy_cat_name']; ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>
@@ -115,20 +115,16 @@
 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Color</label>
-                                        <select name="my_color" class="form-control" required>
-                                            <option><?= $product_row['gy_product_color'] ?></option>
-                                            <option>Red</option>
-                                            <option>Pink</option>
-                                            <option>Orange</option>
-                                            <option>Yellow</option>
-                                            <option>Green</option>
-                                            <option>Blue</option>
-                                            <option>Brown</option>
-                                            <option>Violet/Purple</option>
-                                            <option>Black</option>
-                                            <option>White</option>
-                                            <option>Other</option>
+                                        <label>Supplier</label>
+                                        <select name="my_supplier" class="form-control" required>
+                                            <option value="<?= $my_supplier_code ?>"><?= $supplier['gy_supplier_name'] ?></option>
+                                            <option value="0">none</option>
+                                            <?php  
+                                                $getSuppliers=selectSuppliers();
+                                                while ($supplier=$getSuppliers->fetch_array()) {
+                                            ?>
+                                            <option value="<?= $supplier['gy_supplier_code'] ?>"><?= $supplier['gy_supplier_name'] ?></option>
+                                            <?php } ?>
                                         </select>
                                     </div>
                                 </div>
@@ -152,14 +148,14 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Product Description</label>
-                                        <input type="text" class="form-control" maxlength="100" name="my_name" value="<?php echo htmlentities($product_row['gy_product_name']); ?>" required>
+                                        <input type="text" class="form-control" maxlength="100" name="my_name" value="<?= htmlentities($product_row['gy_product_name']); ?>" required>
                                     </div>
                                 </div>
 
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Product Details</label>
-                                        <input type="text" class="form-control" maxlength="255" name="my_desc" value="<?php echo htmlentities($product_row['gy_product_desc']); ?>" >
+                                        <input type="text" class="form-control" maxlength="255" name="my_desc" value="<?= htmlentities($product_row['gy_product_desc']); ?>" >
                                     </div>
                                 </div>
                             </div>
@@ -174,21 +170,21 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Price (Capital)</label>
-                                            <input type="number" class="form-control" step="0.01" min="0" name="my_price_cap" id="my_price_cap" value="<?php echo $product_row['gy_product_price_cap']; ?>" onkeyup="get_the_price()" required>
+                                            <input type="number" class="form-control" step="0.01" min="0" name="my_price_cap" id="my_price_cap" value="<?= $product_row['gy_product_price_cap']; ?>" onkeyup="get_the_price()" required>
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Price (SRP)</label>
-                                            <input type="number" class="form-control" step="0.01" min="0" name="my_price_srp" id="my_price_srp" value="<?php echo $product_row['gy_product_price_srp']; ?>" onkeyup="get_the_price()" required>
+                                            <input type="number" class="form-control" step="0.01" min="0" name="my_price_srp" id="my_price_srp" value="<?= $product_row['gy_product_price_srp']; ?>" onkeyup="get_the_price()" required>
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Quantity</label>
-                                            <input type="number" class="form-control" step="0.01" name="my_quantity" value="<?php echo $product_row['gy_product_quantity']; ?>" required>
+                                            <input type="number" class="form-control" step="0.01" name="my_quantity" value="<?= $product_row['gy_product_quantity']; ?>" required>
                                         </div>
                                     </div>
 
@@ -196,13 +192,13 @@
                                         <div class="form-group">
                                             <label>Product Unit</label>
                                             <select class="form-control" name="my_unit" required>
-                                                <option><?php echo $product_row['gy_product_unit']; ?></option>
+                                                <option><?= $product_row['gy_product_unit']; ?></option>
                                                 <?php 
                                                     //my suppliers
                                                     $get_unit=$link->query("Select * From `gy_unit` Order By `gy_unit_id` ASC");
                                                     while ($unit_row=$get_unit->fetch_array()){
                                                 ?>
-                                                <option><?php echo $unit_row['gy_unit_name']; ?></option>
+                                                <option><?= $unit_row['gy_unit_name']; ?></option>
                                                 <?php } ?>
                                             </select>
                                         </div>
@@ -231,21 +227,21 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Discount Limit</label>
-                                            <input type="number" class="form-control" step="0.01" min="0" name="my_limit" value="<?php echo $product_row['gy_product_discount_per']; ?>" id="my_limit" onkeyup="get_the_discount()" required>
+                                            <input type="number" class="form-control" step="0.01" min="0" name="my_limit" value="<?= $product_row['gy_product_discount_per']; ?>" id="my_limit" onkeyup="get_the_discount()" required>
                                         </div>
                                     </div>
 
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Discounted value</label>
-                                            <input type="number" class="form-control" step="0.01" min="0" value="<?php echo $product_row['gy_product_price_srp'] - $product_row['gy_product_discount_per']; ?>" name="discounted_value" id="discounted_value" readonly required>
+                                            <input type="number" class="form-control" step="0.01" min="0" value="<?= $product_row['gy_product_price_srp'] - $product_row['gy_product_discount_per']; ?>" name="discounted_value" id="discounted_value" readonly required>
                                         </div>
                                     </div>
 
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Restock Limit /Unit</label>
-                                            <input type="number" class="form-control" name="my_restock_limit" min="0" value="<?php echo $product_row['gy_product_restock_limit']; ?>" required>
+                                            <input type="number" class="form-control" name="my_restock_limit" min="0" value="<?= $product_row['gy_product_restock_limit']; ?>" required>
                                         </div>
                                     </div>
                                 </div>

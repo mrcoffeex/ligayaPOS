@@ -11,10 +11,10 @@
         $my_code = words($_POST['my_code']);
         $my_name = words($_POST['my_name']);
         $my_category = words($_POST['my_category']);
-        $my_color = words($_POST['my_color']);
+        $my_color = "";
         $my_branch = words($_POST['my_branch']);
         $my_desc = words($_POST['my_desc']);
-        $my_supplier = 0;
+        $my_supplier = words($_POST['my-supplier']);
         $my_price_cap = words($_POST['my_price_cap']);
         $my_price_srp = words($_POST['my_price_srp']);
         $my_unit = words($_POST['my_unit']);
