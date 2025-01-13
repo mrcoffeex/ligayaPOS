@@ -140,7 +140,7 @@
         </div>
 
         <p style="position: absolute; bottom: 0; right: 45%; color: #000; margin: 7px;" class="text-center">
-            App Version: v1.1.1
+            App Version: v1.1.4
             <br>
             Powered By: <a href="https://www.facebook.com/krazyappsph" target="_NEW">KrazyAppsPH</a>
         </p>
